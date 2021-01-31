@@ -15,6 +15,13 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * The type empty command.
+ * This command allows to cancel user comment
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AdminMessageCancelCommand implements Command {
     private static final MessageEventService messageEventService = new MessageEventServiceImpl();
     private static final Logger logger = LogManager.getLogger(AdminMessageCancelCommand.class);
@@ -24,7 +31,7 @@ public class AdminMessageCancelCommand implements Command {
         try {
             long messageId = Long.parseLong(req.getParameter(PageParam.PARAM_MESSAGE_ID));
             messageEventService.updateState(messageId, MessageEvent.State.CANCEL);
-            logger.log(Level.INFO, "Message "+messageId+" cancelled");
+            logger.log(Level.INFO, "Message " + messageId + " cancelled");
             return new Router(PagePath.REDIRECT_ADMIN_MESSAGES, Router.Type.REDIRECT);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);

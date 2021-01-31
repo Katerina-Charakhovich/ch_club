@@ -19,7 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * The type Controller.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 @WebServlet(urlPatterns = "/do/*")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5

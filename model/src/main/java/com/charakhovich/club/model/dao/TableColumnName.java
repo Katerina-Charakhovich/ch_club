@@ -1,5 +1,12 @@
 package com.charakhovich.club.model.dao;
 
+/**
+ * The type Column name.
+ * Is used for store the database's field's names.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class TableColumnName {
     public static final String USER_DAO_ID = "user_id";
     public static final String USER_DAO_LOGIN = "login";
@@ -10,8 +17,8 @@ public class TableColumnName {
     public static final String USER_DAO_ROLE = "role";
     public static final String USER_DAO_PHONE = "phone";
     public static final String USER_DAO_PHOTO = "photo";
-    public static final String USER_DAO_BALANCE="balance";
-    public static final String USER_DAO_VERIFICATION_CODE="verification_code";
+    public static final String USER_DAO_BALANCE = "balance";
+    public static final String USER_DAO_VERIFICATION_CODE = "verification_code";
 
     public static final String EVENT_DAO_ID = "event_id";
     public static final String EVENT_DAO_TYPE_EVENT = "type";
@@ -19,8 +26,8 @@ public class TableColumnName {
     public static final String EVENT_DAO_DESCRIPTION = "description";
     public static final String EVENT_DAO_DURATION = "duration";
     public static final String EVENT_DAO_STATE = "state";
-    public static final String EVENT_DAO_MODIFY_DATE ="modifydate";
-    public static final String EVENT_DAO_SHORT_DESCRIPTION="short_description";
+    public static final String EVENT_DAO_MODIFY_DATE = "modifydate";
+    public static final String EVENT_DAO_SHORT_DESCRIPTION = "short_description";
 
     public static final String MESSAGE_DAO_ID = "message_id";
     public static final String MESSAGE_DAO_EVENT_ID = "event_id";
@@ -34,7 +41,7 @@ public class TableColumnName {
     public static final String PICTURE_DAO_NAME = "picture_name";
     public static final String PICTURE_DAO_STATE = "state";
     public static final String PICTURE_DAO_TYPE = "type";
-    public static final String PICTURE_DAO_BLOB="picture";
+    public static final String PICTURE_DAO_BLOB = "picture";
 
     public static final String EVENT_DATE_DAO_ID = "eventdate_id";
     public static final String EVENT_DATE_DAO_EVENT_ID = "event_id";

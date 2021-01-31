@@ -21,6 +21,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * The type "Ticket sale" page command.
+ * This command prepares data for "Ticket sale" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class EventTicketSalePageCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(EventTicketSalePageCommand.class);
@@ -30,21 +37,29 @@ public class EventTicketSalePageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            long eventId=-1;
+            long eventId = -1;
             Cookie[] cookies = req.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    if (cookie.equals(PageCookieName.EVENT_TICKET_SALE_ID)) {
+                    if (cookie.getName().equals(PageCookieName.EVENT_ID)) {
                         eventId = Long.parseLong(cookie.getValue());
                         resp.addCookie(CookieHandler.erase(cookie));
                     }
-                    if (cookie.equals(PageCookieName.IS_TICKET_SALE)) {
-                        req.setAttribute(PageAttribute.SHOW_MODAL_SUCCESS_SALE_TICKET, "true");
+                    if (cookie.getName().equals(PageCookieName.IS_TICKET_BOOKED)) {
+                        req.setAttribute(PageAttribute.IS_TICKET_BOOKED, cookie.getValue());
+                        resp.addCookie(CookieHandler.erase(cookie));
+                    }
+                    if (cookie.getName().equals(PageCookieName.IS_TICKET_PAID)) {
+                        req.setAttribute(PageAttribute.IS_TICKET_PAID, cookie.getValue());
+                        resp.addCookie(CookieHandler.erase(cookie));
+                    }
+                    if (cookie.getName().equals(PageCookieName.IS_TICKET_SALE)) {
+                        req.setAttribute(PageAttribute.IS_TICKET_SALE, cookie.getValue());
                         resp.addCookie(CookieHandler.erase(cookie));
                     }
                 }
             }
-            eventId =  eventId<0 ? Long.parseLong(req.getParameter(PageParam.PARAM_EVENT_ID)):eventId;
+            eventId = eventId < 0 ? Long.parseLong(req.getParameter(PageParam.PARAM_EVENT_ID)) : eventId;
             Optional<Event> event = eventService.findEntityById(eventId);
             if (event.get().getEventType() == Event.Type.THEATRE) {
                 int countDates = eventDateService.count(eventId);
@@ -52,7 +67,8 @@ public class EventTicketSalePageCommand implements Command {
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                         orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER));
                 int numberPage = Integer.parseInt(str);
-                List<EventDate> listEventDates = eventDateService.findEventDates(eventId,
+                          List<EventDate> listEventDates = eventDateService.findEventAvailableDates(eventId,
+                //  List<EventDate> listEventDates = eventDateService.findEventDates(eventId,
                         new Page(numberPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
                 req.setAttribute(PageAttribute.EVENT_VIEW, event.get());
                 req.setAttribute(PageAttribute.EVENT_VIEW_ADDITIONAL_PICTURES, event.get().getListAdditionalPicture());
@@ -62,6 +78,7 @@ public class EventTicketSalePageCommand implements Command {
                 req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.EVENT_TICKET_SALE.toString());
             }
             if (event.get().getEventType() == Event.Type.QUEST) {
+                //         int countDates = eventDateService.countAvailableDates(eventId);
                 int countDates = eventDateService.countDates(eventId);
                 int countPages = (int) Math.ceil(countDates * 1.0 / Page.RECORD_NUMBER);
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
@@ -69,7 +86,8 @@ public class EventTicketSalePageCommand implements Command {
                 int numberPage = Integer.parseInt(str);
                 HashMap<String, List<EventDate>> dates = new HashMap<>();
                 List<LocalDate> listLocalDates;
-                listLocalDates = eventDateService.findEventDatesQuest(eventId,
+                listLocalDates = eventDateService.findAvailableEventDatesQuest(eventId,
+   //             listLocalDates = eventDateService.findEventDatesQuest(eventId,
                         new Page(numberPage, ApplicationParam.DEFAULT_COUNT_VIEW_QUEST_DATES));
                 for (LocalDate localDate : listLocalDates
                 ) {

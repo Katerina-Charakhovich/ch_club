@@ -63,7 +63,7 @@
                         <footer>
                             <button type="submit" class="button" name="edit"
                                     value="${eventView.getEventId()}"><fmt:message
-                                    key="button.buy.booked"/></button>
+                                    key="button.viewDates"/></button>
                         </footer>
                         <!--    <c:if test="${not empty authUser && authUser.getRole().toString()!='USER'}">
                                 <footer>
@@ -91,7 +91,7 @@
             <c:if test="${not empty authUser}">
                 <div id="commentAddBlock" hidden>
                     <form action="${pageContext.request.contextPath}/do" method="post">
-                        <label class="control-label " <fmt:message key="label.opinionAboutEvent"/>>
+                        <label class="control-label " <fmt:message key="label.opinionAboutEvent"/>
                         <input type="hidden" name="eventId" value="${eventView.getEventId()}">
                         <input type="hidden" name="numberPage" value="${numberPage}">
                         <input type="hidden" name="command" value="add_message">

@@ -1,5 +1,11 @@
 package com.charakhovich.club.web.command;
 
+/**
+ * The type Page Path of request.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class PagePath {
     public static final String REDIRECT_MAIN = "/do/MAIN_PAGE_VIEW";
     public static final String REDIRECT_ADMIN_EVENT_VIEW = "/do/ADMIN_EVENT_VIEW";
@@ -14,6 +20,7 @@ public class PagePath {
     public static final String REDIRECT_ERROR_500 = "/do/ERROR_500";
     public static final String REDIRECT_ERROR_404 = "/do/ERROR_404";
     public static final String REDIRECT_ERROR_403 = "/do/ERROR_403";
+    public static final String REDIRECT_ADMIN_USERS = "/do/ADMIN_USERS";
 
 
     public static final String MAIN = "/WEB-INF/pages/main.jsp";

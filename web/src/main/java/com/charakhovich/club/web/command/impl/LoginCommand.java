@@ -5,16 +5,20 @@ import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.UserService;
 import com.charakhovich.club.model.service.impl.UserServiceImpl;
 import com.charakhovich.club.web.command.*;
-import com.charakhovich.club.model.util.Encryptor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * The type login command.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
     private static UserService userService = new UserServiceImpl();

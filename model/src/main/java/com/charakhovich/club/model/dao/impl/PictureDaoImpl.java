@@ -48,22 +48,24 @@ public class PictureDaoImpl extends AbstractDao<Picture> implements PictureDao {
     }
 
     @Override
-    public List findAll() throws DaoException {
+    public List findAll()  {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Optional<Picture> findEntityById(long id) throws DaoException {
+    public Optional<Picture> findEntityById(long id)  {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean delete(Picture entity) {
+
         throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean delete(long id) {
+
         throw new UnsupportedOperationException();
     }
 
@@ -108,7 +110,6 @@ public class PictureDaoImpl extends AbstractDao<Picture> implements PictureDao {
                 key = resultSet.getInt(1);
             }
             return key;
-
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {

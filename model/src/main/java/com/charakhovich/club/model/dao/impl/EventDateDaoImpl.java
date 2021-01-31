@@ -235,6 +235,7 @@ public class EventDateDaoImpl extends AbstractDao<EventDate> implements EventDat
         return result;
     }
 
+
     @Override
     public List<LocalDate> findEventDatesQuest(long eventId, Page page) throws DaoException {
         List<LocalDate> listLocalDates = new ArrayList<>();

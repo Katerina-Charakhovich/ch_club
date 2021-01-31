@@ -17,19 +17,27 @@ import java.util.List;
 import java.util.Optional;
 
 public class MessageEventServiceImpl implements MessageEventService {
+    private MessageEventDaoImpl messageEventDao;
+    private UserDaoImpl userDao;
+    private EventDaoImpl eventDao;
+
+    public MessageEventServiceImpl() {
+        messageEventDao = new MessageEventDaoImpl();
+        eventDao = new EventDaoImpl();
+        userDao = new UserDaoImpl();
+    }
+
     @Override
     public List<MessageEvent> findMessagesEvent(long eventId) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao);
         List<MessageEvent> listMessageEvent;
         try {
+            transaction.initSingleQuery(messageEventDao);
             listMessageEvent = messageEventDao.findMessagesEvent(eventId);
         } catch (DaoException e) {
-            transaction.rollback();
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return listMessageEvent;
     }
@@ -37,10 +45,8 @@ public class MessageEventServiceImpl implements MessageEventService {
     @Override
     public List<MessageEvent> findMessagesEvent(long eventId, Page page) throws ServiceException {
         MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
-        UserDaoImpl userDao = new UserDaoImpl();
-        EventDaoImpl eventDao = new EventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao, userDao, eventDao);
+        transaction.initSingleQuery(messageEventDao, userDao, eventDao);
         List<MessageEvent> listMessageEvent;
         try {
             listMessageEvent = messageEventDao.findMessagesEvent(eventId, page);
@@ -56,55 +62,52 @@ public class MessageEventServiceImpl implements MessageEventService {
             }
 
         } catch (DaoException e) {
-            transaction.rollback();
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return listMessageEvent;
     }
 
     @Override
     public int countOfMessages(long eventId) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao);
+        transaction.initSingleQuery(messageEventDao);
         int result = 0;
         try {
             result = messageEventDao.countOfMessages(eventId);
         } catch (DaoException e) {
-            transaction.rollback();
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return result;
     }
 
     @Override
     public int create(MessageEvent entity) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao);
+        transaction.initSingleQuery(messageEventDao);
         int result = -1;
         try {
             result = messageEventDao.create(entity);
         } catch (DaoException e) {
-            transaction.rollback();
+            try {
+                transaction.rollback();
+            } catch (DaoException daoException) {
+                daoException.printStackTrace();
+            }
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return result;
     }
 
     @Override
     public List<MessageEvent> findMessagesEvent(MessageEvent.State state, Page page) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
-        UserDaoImpl userDao = new UserDaoImpl();
-        EventDaoImpl eventDao = new EventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao, userDao, eventDao);
+        transaction.initSingleQuery(messageEventDao, userDao, eventDao);
         List<MessageEvent> listMessageEvent;
         try {
             listMessageEvent = messageEventDao.findMessagesEvent(state, page);
@@ -120,44 +123,44 @@ public class MessageEventServiceImpl implements MessageEventService {
             }
 
         } catch (DaoException e) {
-            transaction.rollback();
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return listMessageEvent;
     }
 
     @Override
     public int countOfMessageByState(MessageEvent.State state) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao);
+        transaction.initSingleQuery(messageEventDao);
         int result = 0;
         try {
             result = messageEventDao.countOfMessageByState(state);
         } catch (DaoException e) {
-            transaction.rollback();
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return result;
     }
 
     @Override
     public boolean updateState(long messageId, MessageEvent.State state) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
-        transaction.init(messageEventDao);
+        transaction.initSingleQuery(messageEventDao);
         boolean result = false;
         try {
-            result = messageEventDao.updateState( messageId,state);
+            result = messageEventDao.updateState(messageId, state);
         } catch (DaoException e) {
-            transaction.rollback();
+            try {
+                transaction.rollback();
+            } catch (DaoException daoException) {
+                daoException.printStackTrace();
+            }
             throw new ServiceException(e);
         } finally {
-            transaction.end();
+            transaction.endSingleQuery();
         }
         return result;
     }

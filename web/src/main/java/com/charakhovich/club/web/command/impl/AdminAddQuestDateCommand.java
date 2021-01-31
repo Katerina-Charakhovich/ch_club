@@ -1,7 +1,5 @@
 package com.charakhovich.club.web.command.impl;
 
-
-import com.charakhovich.club.model.entity.EventDate;
 import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.EventDateService;
 import com.charakhovich.club.model.service.impl.EventDateServiceImpl;
@@ -10,22 +8,22 @@ import com.charakhovich.club.web.validation.DataValidate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-
+/**
+ * The type empty command.
+ * This command allows to add new date for quest.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AdminAddQuestDateCommand implements Command {
     private static final String DATE_FORMATTER = "yyyy-MM-dd";
     private static final String TIME_FORMATTER = "HH:mm";

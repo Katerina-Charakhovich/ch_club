@@ -16,7 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 import static com.charakhovich.club.web.validation.DataValidate.isValidUserUpdate;
-
+/**
+ * The type Change photo command.
+ * This command allows to change password in private cabinet
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class ChangePasswordCommand implements Command {
     private static final UserService userService = new UserServiceImpl();
     private static final Logger logger = LogManager.getLogger(ChangePasswordCommand.class);
@@ -33,8 +39,7 @@ public class ChangePasswordCommand implements Command {
                 String oldPassword = req.getParameter(PageParam.OLD_PASSWORD);
                 String newPassword = req.getParameter(PageParam.NEW_PASSWORD);
                 String repeatedNewPassword = req.getParameter(PageParam.REPEATED_NEW_PASSWORD);
-                String hashOldPassword = Encryptor.hashPassword(oldPassword);
-                if (userService.checkLogin(authUser.getLogin(), hashOldPassword)) {
+                if (userService.checkLogin(authUser.getLogin(), oldPassword)) {
                     if (newPassword.equals(repeatedNewPassword)) {
                         String hashNewPassword =Encryptor.hashPassword(newPassword);
                         boolean result=userService.updatePassword(authUser.getUserId(), hashNewPassword);

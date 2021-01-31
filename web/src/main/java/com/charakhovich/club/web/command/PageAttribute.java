@@ -1,5 +1,11 @@
 package com.charakhovich.club.web.command;
 
+/**
+ * The type Page Attribute of request.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class PageAttribute {
     public static final String USER_LOGIN = "login";
     public static final String CURRENT_COMMAND = "currentCommand";
@@ -51,8 +57,15 @@ public class PageAttribute {
     public static final String IS_INVALID_QUEST_COST_TICKET = "isInvalidQuestCostTicket";
     public static final String IS_INVALID_QUEST_DATA = "isInvalidQuestData";
     public static final String IS_INVALID_DATA = "isInvalidData";
-    public static final String IS_EXIST_DATE ="isExistDate";
-    public static final String IS_EXIST_QUEST_DATE ="isExistQuestDate";
+    public static final String IS_EXIST_DATE = "isExistDate";
+    public static final String IS_EXIST_QUEST_DATE = "isExistQuestDate";
+    public static final String IS_NOT_ENOUGH_MONEY= "isNotEnoughMoney";
+    public static final String IS_TICKET_SALE= "isTicketSale";
+    public static final String IS_USER_ADD_BALANCE="isUserAddBalance";
+    public static final String IS_AMOUNT_VALID="isAmountValid";
+    public static final String IS_TICKET_PAID="isTicketPaid";
+    public static final String IS_TICKET_BOOKED="isTicketBooked";
+
     private PageAttribute() {
     }
 }

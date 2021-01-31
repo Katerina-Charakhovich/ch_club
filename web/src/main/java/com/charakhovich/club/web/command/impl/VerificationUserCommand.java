@@ -13,7 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
-
+/**
+ * The type verification user command.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class VerificationUserCommand implements Command {
     private static final Logger logger = LogManager.getLogger(VerificationUserCommand.class);
     private static UserService userService = new UserServiceImpl();

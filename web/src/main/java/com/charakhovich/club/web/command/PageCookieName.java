@@ -1,5 +1,12 @@
 package com.charakhovich.club.web.command;
 
+
+/**
+ * The type Page Cookie.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class PageCookieName {
     public static final String EVENT_TICKET_SALE_ID = "eventTicketId";
     public static final String IS_TICKET_SALE ="isTicketSale";
@@ -11,6 +18,10 @@ public class PageCookieName {
     public static final String EVENT_ID="eventId";
     public static final String PAGINATION_NUMBER_PAGE="numberPage";
     public static final String IS_MESSAGE_VALID="isMessageValid";
+    public static final String IS_TICKET_PAID="isTicketPaid";
+    public static final String IS_TICKET_BOOKED="isTicketBooked";
+    public static final String IS_USER_ADD_BALANCE="isUserAddBalance";
+    public static final String IS_AMOUNT_VALID="isAmountValid";
     private PageCookieName() {
     }
 }

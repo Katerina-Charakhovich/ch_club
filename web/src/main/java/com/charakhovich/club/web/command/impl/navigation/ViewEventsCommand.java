@@ -7,7 +7,6 @@ import com.charakhovich.club.model.service.EventService;
 import com.charakhovich.club.model.service.impl.EventServiceImpl;
 import com.charakhovich.club.web.command.*;
 import com.charakhovich.club.web.util.CookieHandler;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type "View events" page command.
+ * This command prepares data for "View events" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class ViewEventsCommand implements Command {
     private static final Logger logger = LogManager.getLogger(ViewEventsCommand.class);
     private static final EventService eventService = new EventServiceImpl();

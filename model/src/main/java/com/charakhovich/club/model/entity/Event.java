@@ -163,7 +163,7 @@ public class Event extends Entity {
     public String toString() {
         StringBuilder strResult = new StringBuilder("Event:");
         strResult.append("eventId=").append(eventId)
-                .append(",  eventType=").append(eventType)
+                .append(",eventType=").append(eventType)
                 .append(", name ='").append(name)
                 .append(",description=").append(description)
                 .append(",shortDescription =").append(shortDescription)

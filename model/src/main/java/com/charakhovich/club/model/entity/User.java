@@ -1,5 +1,6 @@
 package com.charakhovich.club.model.entity;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class User extends Entity {
     private long userId;
@@ -11,6 +12,7 @@ public class User extends Entity {
     private State state;
     private String photo;
     private BigDecimal balance;
+    private List<Ticket> listTicket;
 
     public enum Role {
         ADMIN,
@@ -56,6 +58,14 @@ public class User extends Entity {
         StringBuilder strResult = new StringBuilder(this.firstName);
         strResult.append(" ").append(this.lastName);
         return strResult.toString();
+    }
+
+    public List<Ticket> getListTicket() {
+        return listTicket;
+    }
+
+    public void setListTicket(List<Ticket> listTicket) {
+        this.listTicket = listTicket;
     }
 
     public long getUserId() {

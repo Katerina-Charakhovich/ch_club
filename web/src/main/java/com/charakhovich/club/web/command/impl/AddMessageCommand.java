@@ -16,7 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-
+/**
+ * The type add comment command.
+ * This command allows to add a comment to a registered user
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AddMessageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AddMessageCommand.class);
     private static final MessageEventServiceImpl messageEventService = new MessageEventServiceImpl();
@@ -44,13 +50,6 @@ public class AddMessageCommand implements Command {
                 resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 resp.addCookie(new Cookie(PageCookieName.PAGINATION_NUMBER_PAGE, String.valueOf(numberPage)));
                 resp.addCookie(new Cookie(PageCookieName.IS_MESSAGE_VALID, "true"));
-             /*   req.setAttribute(PageAttribute.EVENT_VIEW_ID, String.valueOf(eventId));
-
-                StringBuilder page = new StringBuilder().append(ApplicationParam.CONTROLLER_REGEX).
-                        append(CommandType.EVENT_VIEW.toString()).append(ApplicationParam.ONE_PARAMETER_SPLIT).
-                        append(PageAttribute.EVENT_VIEW_ID).append(ApplicationParam.SIGN_EQUALS).append(eventId).
-                        append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).
-                        append(ApplicationParam.SIGN_EQUALS).append(numberPage);*/
                 return new Router(PagePath.REDIRECT_EVENT_VIEW, Router.Type.REDIRECT);
             } else {
                 req.setAttribute(PageAttribute.EVENT_VIEW_ID, String.valueOf(eventId));

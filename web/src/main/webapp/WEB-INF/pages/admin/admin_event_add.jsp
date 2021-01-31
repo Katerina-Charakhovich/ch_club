@@ -37,7 +37,6 @@
 </head>
 <body>
 <c:import url="../common/header_admin.jsp"/>
-<!-- MAIN -->
 <div class="container">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <form class="load_pic" action="${pageContext.request.contextPath}/do" enctype="multipart/form-data"
@@ -48,107 +47,236 @@
         <br>
         <c:if test="${empty mainPicture}">
         <h4>
-                <fmt:message key="event_add.h4.chooseMainPicture"/>
+            <fmt:message key="event_add.h4.chooseMainPicture"/>
             <div class="file-loading">
                 <input id="file-0c" required class="file" type="file" data-theme="fas" name="main"
                        formenctype="multipart/form-data">
             </div>
             </c:if>
-            </br>
-            <hr>
-            <fmt:message key="event_add.h4.chooseAddPictures"/>
-            <div class="form-group">
-                <div class="file-loading">
-                    <input id="file-4" required name="additional" type="file" class="file" multiple
-                           data-min-file-count="3" data-upload-url="#" data-theme="fas"
-                           formenctype="multipart/form-data">
-                </div>
+        </h4>
+        <hr>
+        <h3><fmt:message key="event_add.h4.chooseAddPictures"/></h3>
+        <div class="form-group">
+            <div class="file-loading">
+                <input id="file-4" required name="additional" type="file" class="file" multiple
+                       data-min-file-count="3" data-upload-url="#" data-theme="fas"
+                       formenctype="multipart/form-data">
             </div>
-            <hr>
-            <c:if test="${not empty mainPicture}">
+        </div>
+        <hr>
+        <c:if test="${not empty mainPicture}">
             <div class="card-header">
                 <input type="hidden" name="mainPicture" value="${mainPicture}">
                 <img class="card-img-top" src="${mainPicture}" alt="Card image cap">
             </div>
-            </c:if>
-            </br>
-            <div class="form-group">
-                <label class="control-label col-xs-3" for="eventName"><fmt:message key="event.label.name"/></label>
-                <div class="required col-xs-10">
-                    <c:choose>
-                        <c:when test="${not empty mapPageParams && mapPageParams['eventName'].equals('error')}">
-                            <input type="text" required class="form-control input-md" id="eventName" name="eventName"
-                                   placeholder=
-                                       <fmt:message key="event.placeholder.name"/>>
-                            </br>
-                            <label class="control-label col-xs-3" for="eventName"><fmt:message
-                                    key="label.error.input"/></label>
-                        </c:when>
-                        <c:when test="${not empty mapPageParams && !mapPageParams['eventName'][0].equals('error')}">
-                            <input type="text" required class="form-control input-md" id="eventName" name="eventName"
-                                   placeholder=
-                                       <fmt:message
-                                               key="event.placeholder.name"/> value= ${mapPageParams['eventName'][0]}>
-                        </c:when>
-                        <c:otherwise>
-                            <input type="text" required class="form-control input-md" id="eventName" name="eventName"
-                                   placeholder=<fmt:message key="event.placeholder.name"/>>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
+        </c:if>
+        </br>
+        <div class="form-group">
+            <h3>
+                <label for="from-eventname" class="control-label col-xs-3">
+                    <fmt:message key="event.label.name"/>
+                </label>
+            </h3>
+            <div class="required col-xs-10">
+                <c:choose>
+                    <c:when test="${not empty mapPageParams && mapPageParams['eventName'].equals('error')}">
+                        <input type="text"
+                               required
+                               class="form-control"
+                               id="from-eventname"
+                               name="eventName"
+                               value="">
+                        </br>
+                        <div class="warnMessage" style="color: #8b0000">
+                            <fmt:message key="eventEdit.warnMessage"/>
+                        </div>
+                    </c:when>
+                    <c:when test="${not empty mapPageParams && !mapPageParams['eventName'].equals('error')}">
+                        <input type="text"
+                               required
+                               class="form-control"
+                               id="from-eventname"
+                               name="eventName"
+                               value=${mapPageParams['eventName']}>
+                        </br>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text"
+                               required
+                               class="form-control"
+                               id="from-eventname"
+                               name="eventName"
+                               placeholder=
+                                   <fmt:message key="event.placeholder.name"/>
+                                       value="">
+                        </br>
 
-            </div>
-            </br>
-            <div class="form-group">
-                <label class="control-label col-xs-3" name="typeEvent" id="typeEvent"><fmt:message
-                        key="event.typeEvent"/></label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="radio-inline">
-                    <input formenctype="text/plain;charset= UTF-8" type="radio" checked name="eventType"
-                           value="theatre"> <fmt:message
-                        key="event.typeEvent.theatre"/>
-                </label>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
-            <div class="form-check form-check-inline">
-                <label class="radio-inline">
-                    <input type="radio" name="eventType" value="quest"> <fmt:message key="event.typeEvent.quest"/>
-                </label>
+        </div>
+        </br>
+        <div class="form-group">
+            <label class="control-label col-xs-3" name="typeEvent" id="typeEvent"><fmt:message
+                    key="event.typeEvent"/></label>
+        </div>
+        <div class="form-check form-check-inline">
+            <label class="radio-inline">
+                <input formenctype="text/plain;charset= UTF-8" type="radio" checked name="eventType"
+                       value="theatre"> <fmt:message
+                    key="event.typeEvent.theatre"/>
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <label class="radio-inline">
+                <input type="radio" name="eventType" value="quest"> <fmt:message key="event.typeEvent.quest"/>
+            </label>
+        </div>
+        </br>
+        <div class="form-group">
+            <label class="control-label col-xs-3"
+                   for="from-eventshortdesc">
+                <fmt:message key="event.short.description"/>
+            </label>
+            <div class="required col-xs-10">
+                <c:choose>
+                    <c:when test="${not empty mapPageParams && mapPageParams['eventShortDescription'].equals('error')}">
+                        <input type="text"
+                               required
+                               class="form-control"
+                               id="from-eventshortdesc"
+                               name="eventShortDescription"
+                               value="">
+                        </br>
+                        <div class="warnMessage" style="color: #8b0000">
+                            <fmt:message key="eventEdit.warnMessage"/>
+                        </div>
+                    </c:when>
+                    <c:when test="${not empty mapPageParams && !mapPageParams['eventShortDescription'].equals('error')}">
+                        <input type="text"
+                               required
+                               class="form-control"
+                               id="from-eventshortdesc"
+                               name="eventShortDescription"
+                               value=${mapPageParams['eventShortDescription']}>
+                        </br>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text"
+                               required
+                               class="form-control"
+                               id="from-eventshortdesc"
+                               name="eventShortDescription"
+                               value="">
+                        </br>
+                    </c:otherwise>
+                </c:choose>
             </div>
-          <!--  <div class="form-check form-check-inline">
-                <label class="radio-inline">
-                    <input type="radio" name="eventType" value="quest"><fmt:message
-                        key="event.typeEvent.creativeWorkShop"/>
-                </label>
-            </div>-->
+        </div>
+        <div class="form-group">
             </br>
-            <div class="form-group">
-                <label class="control-label col-xs-3" for="eventShortDescription"><fmt:message
-                        key="event.short.description"/></label>
-                <div class="col-xs-10">
-                    <input formenctype="text/plain;charset= UTF-8" type="text" required class="form-control input-md"
-                           id="eventShortDescription"
-                           name="eventShortDescription" placeholder=<fmt:message key="event.description.hint"/>>
-                </div>
+            <label class="control-label col-xs-3" for="from-eventdesc">
+                <fmt:message key="event.description"/>
+            </label>
+            <div class="required col-xs-10">
+                <c:choose>
+                    <c:when test="${not empty mapPageParams && mapPageParams['eventDescription'].equals('error')}">
+                                <textarea formenctype="text/plain;charset= UTF-8"
+                                          rows="8"
+                                          required
+                                          class="form-control"
+                                          id="from-eventdesc"
+                                          name="eventDescription"
+                                          value="">
+                        </textarea>
+                        </br>
+                        <div class="warnMessage" style="color: #8b0000">
+                            <fmt:message key="eventEdit.warnMessage"/>
+                        </div>
+                    </c:when>
+                    <c:when test="${not empty mapPageParams && !mapPageParams['eventDescription'].equals('error')}">
+                            <textarea formenctype="text/plain;charset= UTF-8"
+                                      rows="8"
+                                      required
+                                      class="form-control"
+                                      id="from-eventdesc"
+                                      name="eventDescription">
+                                    ${mapPageParams['eventDescription']}
+                            </textarea>
+                    </c:when>
+                    <c:otherwise>
+                           <textarea formenctype="text/plain;charset= UTF-8"
+                                     rows="8"
+                                     required
+                                     class="form-control"
+                                     id="from-eventdesc"
+                                     name="eventDescription"
+                                     value="">
+                        </textarea>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="form-group">
-                </br>
-                <label class="control-label col-xs-3" for="eventDescription"><fmt:message
-                        key="event.description"/></label>
-                <div class="col-xs-10">
-                <textarea formenctype="text/plain;charset= UTF-8" rows="8" required class="form-control"
-                          id="eventDescription" name="eventDescription"
-                          placeholder=<fmt:message key="event.description.hint"/>></textarea>
-                </div>
-            </div>
+        </div>
+        <div class="form-group">
             </br>
-            <div class="form-group">
-                <div class="col-xs-offset-3 col-xs-9">
-                    <input type="submit" class="button" value="Сохранить">
-                    <input type="reset" class="button" value="Отмена ">
-                </div>
+            <label class="control-label col-xs-3" for="from-duration">
+                <fmt:message key="event.duration"/>
+            </label>
+            <c:choose>
+                <c:when test="${not empty mapPageParams && mapPageParams['duration'].equals('error')}">
+                    <div class="col-xs-9">
+                        <input type="number"
+                               name="duration"
+                               id="from-duration"
+                               pattern="\d+,\d{1}"
+                               min="0.5"
+                               max="3.00"
+                               step="0.5"
+                               value=""
+                               required>
+                    </div>
+                    <div class="warnMessage" id="incorrectDurationEvent" hidden style="color: #8b0000">
+                        <fmt:message key="event_add.incorrectDurationEvent"/>
+                    </div>
+                </c:when>
+                <c:when test="${not empty mapPageParams && !mapPageParams['duration'].equals('error')}">
+                    <div class="col-xs-9">
+                        <input type="number"
+                               name="duration"
+                               id="from-duration"
+                               pattern="\d+,\d{1}"
+                               value=${mapPageParams['duration']}
+                                       min="0.5"
+                               max="3.00"
+                               step="0.5"
+                               required>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-xs-9">
+                        <input type="number"
+                               name="duration"
+                               id="from-duration"
+                               pattern="\d+,\d{1}"
+                               min="0.5"
+                               max="3.00"
+                               step="0.5"
+                               value=""
+                               required>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        </br>
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-9">
+                <button id="saveChange" class="button" type="submit">
+                    <fmt:message key="button.save"/>
+                </button>
             </div>
+        </div>
     </form>
 </div>
 </div>
@@ -264,4 +392,3 @@
     });
 </script>
 </html>
--

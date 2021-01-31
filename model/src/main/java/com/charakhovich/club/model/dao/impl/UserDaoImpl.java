@@ -9,6 +9,7 @@ import com.charakhovich.club.model.exeption.DaoException;
 import com.charakhovich.club.model.util.PictureUtil;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -241,8 +242,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SqlQuery.UPDATE_USER_STATE);
-            statement.setLong(1, userId);
-            statement.setString(2, state.toString());
+            statement.setLong(2, userId);
+            statement.setString(1, state.toString());
             int amountOfRows = statement.executeUpdate();
             isUpdate = amountOfRows > 0;
         } catch (SQLException e) {
@@ -263,6 +264,45 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             statement = connection.prepareStatement(SqlQuery.UPDATE_USER_PASSWORD);
             statement.setString(1, newUserPassword);
             statement.setLong(2, userId);
+            int amountOfRows = statement.executeUpdate();
+            isUpdate = amountOfRows > 0;
+        } catch (SQLException e) {
+            throw new DaoException("SQL exception (request or table failed)", e);
+        } finally {
+            statementClose(statement);
+
+        }
+        return isUpdate;
+    }
+
+    @Override
+    public boolean addBalance(long userId, BigDecimal value) throws DaoException {
+        boolean isUpdate;
+        Connection connection = this.connection;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SqlQuery.UPDATE_USER_BALANCE_ADD);
+            statement.setLong(2, userId);
+            statement.setBigDecimal(1, value);
+            int amountOfRows = statement.executeUpdate();
+            isUpdate = amountOfRows > 0;
+        } catch (SQLException e) {
+            throw new DaoException("SQL exception (request or table failed)", e);
+        } finally {
+            statementClose(statement);
+
+        }
+        return isUpdate;
+    }
+    @Override
+    public boolean minusBalance(long userId, BigDecimal value) throws DaoException {
+        boolean isUpdate;
+        Connection connection = this.connection;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SqlQuery.UPDATE_USER_BALANCE_MINUS);
+            statement.setLong(2, userId);
+            statement.setBigDecimal(1, value);
             int amountOfRows = statement.executeUpdate();
             isUpdate = amountOfRows > 0;
         } catch (SQLException e) {

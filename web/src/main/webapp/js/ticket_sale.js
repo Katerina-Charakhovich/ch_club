@@ -1,18 +1,27 @@
 $(document).ready(function () {
-    if ($("#showModalSuccessSaleTicket").val() == 'true') {
-        $("#modalSuccessSaleTicket").modal('show');
+    if ($("#isTicketPaid").val() === 'true') {
+        alert("isTicketPaid");
+        $("#modalSuccessPaidTicket").modal('show');
     } else {
-        $("#modalSuccessSaleTicket").modal('hide');
+        $("#modalSuccessPaidTicket").modal('hide');
+    }
+
+    if ($("#isTicketBooked").val() === 'true') {
+        alert("isTicketBooked");
+        $("#modalSuccessBookTicket").modal('show');
+    } else {
+        $("#modalSuccessBookTicket").modal('hide');
+    }
+
+    if ($("#isTicketSale").val() === 'false') {
+        alert("isTicketSale");
+        $("#modalUnSuccessSaleTicket").modal('show');
+    } else {
+        $("#modalUnSuccessSaleTicket").modal('hide');
     }
 });
 
-$("#buttonQuestBuy").click(function () {
-    document.getElementById('questName').setAttribute('value', '${eventView.getName()}');
-    document.getElementById('timeModal').setAttribute('value', '${time}');
-    document.getElementById('dateModal').setAttribute('value', '${date}');
-    document.getElementById('eventDateId').setAttribute('value', q);
-    document.getElementById('eventId').setAttribute('value', '${eventView.getEventId()}');
-    document.getElementById('eventType').setAttribute('value', '${eventView.getEventType()}');
-});
+
+
 
 

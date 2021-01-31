@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.util.Base64;
 
 /**
- *
  * The Image modification
  *
  * @author Katerina Charakhovich
@@ -49,10 +48,11 @@ public class PictureUtil {
     /**
      * Resize image
      *
-     * @param image the inputStream, widthImage the int
-     * @return the string
+     * @param image      the inputStream
+     * @param widthImage the int
+     * @return the InputStream
      */
-    public static InputStream resizeImage(InputStream image, Integer widthImage) {
+    public static InputStream resizeImage(InputStream image, int widthImage) {
         InputStream newImage = null;
         try {
             BufferedImage imageResize = ImageIO.read(image);

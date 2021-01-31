@@ -17,22 +17,28 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@WebFilter(filterName = "RoleSecurityFilter",urlPatterns = {"/do"})
+/**
+ * The type Role security filter.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
+@WebFilter(filterName = "RoleSecurityFilter", urlPatterns = {"/do"})
 public class RoleSecurityFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(RoleSecurityFilter.class);
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = ( HttpServletResponse ) resp;
+        HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
         CommandType commandType = ActionFactory.defineCommandType(request);
-        Optional <User> userOptional=Optional.empty();
-        if (session.getAttribute(PageAttribute.AUTH_USER)!=null){
-            User user= (User) session.getAttribute(PageAttribute.AUTH_USER);
-            userOptional=Optional.of(user);
+        Optional<User> userOptional = Optional.empty();
+        if (session.getAttribute(PageAttribute.AUTH_USER) != null) {
+            User user = (User) session.getAttribute(PageAttribute.AUTH_USER);
+            userOptional = Optional.of(user);
         }
-        User.Role userRole= userOptional.isPresent()? userOptional.get().getRole() : User.Role.GUEST;
+        User.Role userRole = userOptional.isPresent() ? userOptional.get().getRole() : User.Role.GUEST;
         Set<CommandType> commands = new HashSet<>();
         switch (userRole) {
             case USER:
@@ -47,7 +53,7 @@ public class RoleSecurityFilter implements Filter {
         }
         if (!commands.contains(CommandType.valueOf(commandType.toString().toUpperCase()))) {
             logger.log(Level.ERROR, "Role {} has no access to {} command", userRole, commandType);
-            response.sendRedirect(request.getContextPath() +PagePath.REDIRECT_ERROR_403);
+            response.sendRedirect(request.getContextPath() + PagePath.REDIRECT_ERROR_403);
             return;
         }
         chain.doFilter(req, resp);

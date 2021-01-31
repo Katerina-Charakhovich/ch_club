@@ -18,6 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type "Event edit" page command.
+ * This command prepares data for "Event edit" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AdminEventEditPageCommand implements Command {
     private static final EventServiceImpl eventService = new EventServiceImpl();
     private static final EventDateService eventDateService = new EventDateServiceImpl();

@@ -19,6 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type "Event view" page command.
+ * This command prepares data for "Event view" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class EventViewPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(EventViewPageCommand.class);
     private static final EventService eventService = new EventServiceImpl();

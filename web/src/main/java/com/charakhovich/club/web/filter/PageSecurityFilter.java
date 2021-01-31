@@ -8,7 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "PageSecurityFilter",urlPatterns = {"/jsp/*"})
+/**
+ * The type Page security filter.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
+@WebFilter(filterName = "PageSecurityFilter", urlPatterns = {"/jsp/*"})
 public class PageSecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {

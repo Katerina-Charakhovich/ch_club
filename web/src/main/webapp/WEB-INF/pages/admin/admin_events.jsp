@@ -28,50 +28,33 @@
                 <fmt:message key="event.short.description"/>
             </th>
             <th></th>
-            <th></th>
-            <th></th>
         </tr>
         <c:forEach items="${listEvent}" var="event">
-        <div>
-            <tr>
-                <td>${event.getName()}</td>
-                <td>${event.getEventType().toString()}</td>
-                <td>${event.getShortDescription()}</td>
-                <td>
-                    <form action="${pageContext.request.contextPath}/do/admin_event_edit" method="post">
-                        <button type="submit" class="btn btn-lg btn-block btn-outline-primary" name="eventId"
-                                value="${event.getEventId()}">
-                            <img src="${pageContext.request.contextPath}/images/edit.png">
-                            <!-- <fmt:message key="button.edit"/>
-                           --></button>
-                    </form>
-                </td>
-                <td>
-                    <form action="${pageContext.request.contextPath}/do/admin_event_edit" method="post">
-                        <button type="submit" class="btn btn-lg btn-block btn-outline-primary" name="eventId"
-                                value="${event.getEventId()}">
-                            <img src="${pageContext.request.contextPath}/images/calendar.png">
-                        </button>
-                    </form>
-                </td>
-                <td>
-                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary" name="eventId"
-                            value="${event.getEventId()}">
-                        <img src="${pageContext.request.contextPath}/images/delete-sign.png">
-                    </button>
-                </td>
-            </tr>
             <div>
+                <tr>
+                    <td>${event.getName()}</td>
+                    <td>${event.getEventType().toString()}</td>
+                    <td>${event.getShortDescription()}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/do/admin_event_edit" method="post">
+                            <button type="submit" class="button" name="eventId"
+                                    value="${event.getEventId()}">
+                                <fmt:message key="button.edit"/>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </div>
         </c:forEach>
-        <div>
-            <form action="${pageContext.request.contextPath}/do/ADMIN_EVENT_ADD_PAGE" method="post">
-                <button type="submit" class="button" name="userId"
-                        value="${user.getUserId()}">
-                    <fmt:message key="button.create"/>
-                </button>
-            </form>
-        </div>
     </table>
+    <div>
+        <form action="${pageContext.request.contextPath}/do/ADMIN_EVENT_ADD_PAGE" method="post">
+            <button type="submit" class="button" name="userId"
+                    value="${user.getUserId()}">
+                <fmt:message key="button.create"/>
+            </button>
+        </form>
+    </div>
     </form>
     </br>
     <div>
@@ -80,7 +63,6 @@
             <ctg:pagination/>
         </form>
     </div>
-
 </div>
 <script src="${pageContext.request.contextPath}/js/delete_cookie.js"></script>
 </body>

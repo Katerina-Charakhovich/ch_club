@@ -17,9 +17,13 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
-import static com.charakhovich.club.web.command.ApplicationParam.APPLICATION_DOMAIN;
-import static com.charakhovich.club.web.command.ApplicationParam.APPLICATION_PATH;
-
+/**
+ * The type "Events" page command.
+ * This command prepares data for "Events" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AdminEventsPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AdminEventsPageCommand.class);
     private static final EventService eventService = new EventServiceImpl();

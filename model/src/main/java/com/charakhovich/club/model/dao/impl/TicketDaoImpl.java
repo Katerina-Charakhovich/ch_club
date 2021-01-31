@@ -49,7 +49,7 @@ public class TicketDaoImpl extends AbstractDao<Ticket> implements TicketDao {
             return result;
         } catch (SQLException e) {
             throw new DaoException(e);
-        }finally {
+        } finally {
             statementClose(statement);
         }
     }
@@ -67,6 +67,38 @@ public class TicketDaoImpl extends AbstractDao<Ticket> implements TicketDao {
 
     @Override
     public List<EventDate> findTicketEvent(long eventId, Page page) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Ticket> findTicketUser(long eventId, Page page) throws DaoException {
+     /*   List<Event> events = new ArrayList<Event>();
+        Connection connection = this.connection;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SqlQuery.SELECT_ACTUAL_EVENTS);
+            statement.setString(1, Event.State.ACTUAL.toString());
+            statement.setInt(2, page.getFirst());
+            statement.setInt(3, page.getMax());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Event event = new Event();
+                event.setEventId(resultSet.getInt(TableColumnName.EVENT_DAO_ID));
+                event.setEventType(Event.Type.valueOf(resultSet.getString(TableColumnName.EVENT_DAO_TYPE_EVENT)));
+                event.setName(resultSet.getString(TableColumnName.EVENT_DAO_NAME));
+                event.setDescription(resultSet.getString(TableColumnName.EVENT_DAO_DESCRIPTION));
+                Timestamp t = resultSet.getTimestamp(TableColumnName.EVENT_DAO_MODIFY_DATE);
+                LocalDateTime localDateTime = t.toLocalDateTime();
+                event.setModifyDate(localDateTime);
+                event.setShortDescription(resultSet.getString(TableColumnName.EVENT_DAO_SHORT_DESCRIPTION));
+                event.setDuration(resultSet.getDouble(TableColumnName.EVENT_DAO_DURATION));
+                events.add(event);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            statementClose(statement);
+        }*/
         throw new UnsupportedOperationException();
     }
 

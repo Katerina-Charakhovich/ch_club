@@ -2,6 +2,9 @@ package com.charakhovich.club.web.command;
 
 import com.charakhovich.club.web.command.impl.*;
 import com.charakhovich.club.web.command.impl.navigation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * The enum Command type.
  *
@@ -9,6 +12,9 @@ import com.charakhovich.club.web.command.impl.navigation.*;
  * @version 1.0
  */
 public enum CommandType {
+    ADMIN_ADD_BALANCE(new AdminAddBalanceCommand()),
+    ADMIN_USER_BLOCK(new UserBlockCommand()),
+    ADMIN_USER_UNBLOCK(new UserUnBlockCommand()),
     ADD_MESSAGE(new AddMessageCommand()),
     ADMIN_USERS(new AdminUsersPageCommand()),
     ADMIN_MESSAGE_APPROVE(new AdminMessageApproveCommand()),

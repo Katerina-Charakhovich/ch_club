@@ -15,7 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 import static com.charakhovich.club.web.validation.DataValidate.isValidUserUpdate;
-
+/**
+ * The type update user info command.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class UpdateUserInfoCommand implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
     private static UserService userService = new UserServiceImpl();

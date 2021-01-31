@@ -328,7 +328,7 @@
                            type="time" id="questEndTime"
                            name="questEndTime" id="questEndTime"
                            required
-                           min="09:00" max="20:00"
+                           min="10:00" max="21:00"
                            value="" pattern="HH:MM"/>"
 
                     <div class="warnMessage" id="incorrectQuestEndTime" hidden style="color: #8b0000">

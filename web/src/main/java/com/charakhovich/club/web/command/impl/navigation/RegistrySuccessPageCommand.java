@@ -7,6 +7,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * The type "Registry" page command.
+ * This command prepares data for "Registry" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class RegistrySuccessPageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {

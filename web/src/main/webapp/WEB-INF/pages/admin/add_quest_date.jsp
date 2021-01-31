@@ -32,7 +32,7 @@
                             </span>
                         </div>
                         <input type="date" id="date" name="date"
-                               min="2020-12-14" max="2030-12-314"
+                               min="2021-12-14" max="2030-12-31"
                                value=""
                                placeholder="<fmt:message key="quest.date"/>">
                     </div>

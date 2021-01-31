@@ -16,6 +16,13 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type "Messages" page command.
+ * This command prepares data for "Messages" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AdminMessagePageCommand implements Command {
     private static final MessageEventService messageEventService = new MessageEventServiceImpl();
     private static final Logger logger = LogManager.getLogger(AdminMessagePageCommand.class);

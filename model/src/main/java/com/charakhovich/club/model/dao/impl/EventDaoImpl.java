@@ -183,6 +183,7 @@ public class EventDaoImpl extends AbstractDao<Event> implements EventDao {
             statement.setString(3, event.getDescription());
             statement.setString(4, event.getShortDescription());
             statement.setString(5, event.getState().toString());
+            statement.setDouble(6, event.getDuration());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {

@@ -19,6 +19,12 @@ import java.util.Optional;
 
 import static com.charakhovich.club.web.validation.DataValidate.isValidUserNew;
 
+/**
+ * The type registration user command.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class RegistrationCommand implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
     private static UserService userService = new UserServiceImpl();
@@ -30,8 +36,8 @@ public class RegistrationCommand implements Command {
         RequestContext requestContext = new RequestContext(req);
         HashMap<String, String> commandParams = requestContext.getReqParams();
         try {
-            boolean isValidUserNew =isValidUserNew(commandParams);
-            if (isValidUserNew){
+            boolean isValidUserNew = isValidUserNew(commandParams);
+            if (isValidUserNew) {
 
             }
             if (isValidUserNew(commandParams)) {
@@ -41,7 +47,7 @@ public class RegistrationCommand implements Command {
                 String userPhone = commandParams.get(PageParam.PARAM_USER_PHONE);
                 String userPassword = commandParams.get(PageParam.PARAM_USER_PASSWORD);
                 String userRepeatedPassword = commandParams.get(PageParam.PARAM_USER_REPEATED_PASSWORD);
-                if (!userPassword.equals(userRepeatedPassword)){
+                if (!userPassword.equals(userRepeatedPassword)) {
                     req.setAttribute(PageAttribute.IS_NONEQUIVALENT_PASSWORD, "true");
                     page = PagePath.REGISTRY_PAGE;
                     return new Router(page, Router.Type.FORWARD);

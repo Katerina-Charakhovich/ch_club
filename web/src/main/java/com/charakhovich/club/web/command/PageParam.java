@@ -1,5 +1,10 @@
 package com.charakhovich.club.web.command;
-
+/**
+ * The type Page Parameter of request.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class PageParam {
     public static final String PARAM_COMMAND = "command";
     public static final String PARAM_COMMAND_NEXT = "commandNext";
@@ -40,6 +45,7 @@ public class PageParam {
     public static final String OLD_PASSWORD = "oldPassword";
     public static final String NEW_PASSWORD = "newPassword";
     public static final String REPEATED_NEW_PASSWORD = "repeatedNewPassword";
+    public static final String ADD_BALANCE_AMOUNT = "amount";
 
 
     private PageParam() {

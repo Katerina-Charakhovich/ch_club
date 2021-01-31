@@ -1,5 +1,10 @@
 package com.charakhovich.club.web.command;
-
+/**
+ * The type default application parameters.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class ApplicationParam {
 
     public static final String CONTROLLER_REGEX = "/do/";

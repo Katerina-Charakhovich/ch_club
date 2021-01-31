@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<div role="dialog" tabindex="-1" class="modal fade" id="modalQuestSale">
+<div role="dialog" tabindex="-1" class="modal fade" id="modalSale">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,7 +27,7 @@
                     <input type="hidden" id="eventId" name="eventId"/>
                     <input type="hidden" id="eventType" name="eventType"/>
                     <input type="hidden" id="ticketState" name="ticketState"/>
-
+                    <input type="hidden" id="costTicket" name="costTicket"/>
                     <div style="margin-bottom: 10px">
                         <div class="input-group" style="margin-bottom: 10px">
                             <input class="form-control" type="text" disabled id="questName" name="questName"/>
@@ -38,22 +38,36 @@
                         <div class="input-group" style="margin-bottom: 10px">
                             <input class="form-control" type="text" disabled id="timeModal" name="timeModal"/>
                         </div>
+                        <div class="input-group" style="margin-bottom: 10px">
+                            <input class="form-control" type="text" disabled id="price" name="price"/>
+                        </div>
                     </div>
                     <div style="margin-left: 10%">
-                        <button type="submit" class="button" id="pay">
-                            <fmt:message key="button.pay"/>
-                        </button>
-                        <button style="margin-left: 10%" id="booked" type="submit"
-                                class="button" >
-                            <fmt:message key="button.booked"/>
-                        </button>
+                        <input
+                                type="submit"
+                                class="button"
+                                name="PAID"
+                                id="pay"
+                                value=
+                                <fmt:message key="button.pay"/>
+                        >
+                        <input
+                                type="submit"
+                                style="margin-left: 10%"
+                                id="booked"
+                                name="BOOKED"
+                                type="submit"
+                                class="button"
+                                value=
+                                <fmt:message key="button.booked"/>
+                        >
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<div role="dialog" type="hidden" tabindex="-1" class="modal fade" id="modalSuccessSaleTicket">
+<div role="dialog" type="hidden" tabindex="-1" class="modal fade" id="modalSuccessPaidTicket">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -63,9 +77,43 @@
                         aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
+                <p>
+                    <fmt:message key="text.ticketSuccessPaid"/>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div role="dialog" type="hidden" tabindex="-1" class="modal fade" id="modalSuccessBookTicket">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3 class="modal-title text-primary">
-                    Ticket booked
                 </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <fmt:message key="text.ticketSuccessBooked"/>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div role="dialog" type="hidden" tabindex="-1" class="modal fade" id="modalUnSuccessSaleTicket">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-primary">
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <fmt:message key="text.ticketUnSuccessSale"/>
+                </p>
             </div>
         </div>
     </div>

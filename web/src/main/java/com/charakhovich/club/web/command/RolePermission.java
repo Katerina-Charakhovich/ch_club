@@ -4,8 +4,16 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static com.charakhovich.club.web.command.CommandType.*;
-
+/**
+ * The {@code RolePermission} enum represents role permission.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public enum RolePermission {
+    /**
+     * Guest command role permission.
+     */
     GUEST(
             EnumSet.of(
                     MAIN_PAGE_VIEW,
@@ -19,6 +27,7 @@ public enum RolePermission {
                     REGISTRY_PAGE,
                     REGISTRATION,
                     VERIFICATION_TOKEN,
+                    LOGOUT,
                     ERROR_403,
                     ERROR_500,
                     ERROR_404
@@ -53,8 +62,11 @@ public enum RolePermission {
      */
     ADMIN(
             EnumSet.of(
+                    ADMIN_ADD_BALANCE,
                     ADD_MESSAGE,
                     ADMIN_USERS,
+                    ADMIN_USER_BLOCK,
+                    ADMIN_USER_UNBLOCK,
                     ADMIN_MESSAGES,
                     ADMIN_MESSAGE_APPROVE,
                     ADMIN_MESSAGE_CANCEL,

@@ -17,7 +17,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-
+/**
+ * The type add event date command.
+ * This command allows to add new date
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class AdminAddEventDateCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AdminAddEventDateCommand.class);
     private static final EventDateService eventDateService = new EventDateServiceImpl();

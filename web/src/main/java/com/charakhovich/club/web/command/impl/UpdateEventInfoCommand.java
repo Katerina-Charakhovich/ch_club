@@ -16,6 +16,12 @@ import java.util.HashMap;
 
 import static com.charakhovich.club.web.validation.DataValidate.*;
 
+/**
+ * The type update event info command.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class UpdateEventInfoCommand implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
     private static EventService eventService = new EventServiceImpl();

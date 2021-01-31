@@ -1,22 +1,22 @@
 package com.charakhovich.club.web.command.factory;
 
-import com.charakhovich.club.web.command.Command;
-import com.charakhovich.club.web.command.CommandType;
-import com.charakhovich.club.web.command.PageParam;
-import com.charakhovich.club.web.command.PagePath;
+import com.charakhovich.club.web.command.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The type Command definer.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class ActionFactory {
     private static Logger logger = LogManager.getLogger(ActionFactory.class);
-    private static final String CONTROLLER_REGEX = "/do/";
-    private static final String QUESTION_MARK = "?";
     private static final String EMPTY_VALUE = "";
     private static final String PATH_START_REGEX = "/do.+";
 
@@ -84,8 +84,8 @@ public class ActionFactory {
                 path = PagePath.MAIN;
             }
         }
-        String str1 = path.replaceAll(CONTROLLER_REGEX, EMPTY_VALUE);
-        int indexEnd = url.indexOf(QUESTION_MARK);
+        String str1 = path.replaceAll(ApplicationParam.CONTROLLER_REGEX, EMPTY_VALUE);
+        int indexEnd = url.indexOf(ApplicationParam.ONE_PARAMETER_SPLIT);
         return indexEnd == -1 ? (str1) : str1.substring(0, indexEnd);
     }
 }

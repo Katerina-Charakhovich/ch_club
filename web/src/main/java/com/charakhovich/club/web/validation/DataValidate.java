@@ -29,6 +29,8 @@ public class DataValidate {
     private static final BigDecimal MAX_COST = BigDecimal.valueOf(50);
     private static final int MIN_COUNT = 1;
     private static final int MAX_COUNT = 30;
+    private static final BigDecimal MIN_ADD_BALANCE_AMOUNT = BigDecimal.valueOf(0.5);
+    private static final BigDecimal MAX_ADD_BALANCE_AMOUNT = BigDecimal.valueOf(100.00);
 
     public static boolean isValidPageParameters(RequestContext requestContext) {
         boolean result = true;
@@ -89,6 +91,9 @@ public class DataValidate {
     }
     public static boolean isValidEventTime(LocalTime localTime) {
         return (localTime.compareTo(MIN_LOCAL_TIME)>-1)&&(localTime.compareTo(MAX_LOCAL_TIME)<0);
+    }
+    public static boolean isAddBalanceAmountValid(BigDecimal amount) {
+        return (amount.compareTo(MIN_ADD_BALANCE_AMOUNT)>-1)&&(amount.compareTo(MAX_ADD_BALANCE_AMOUNT)<0);
     }
 
     public static boolean isValidUserNew(Map<String, String> params) {

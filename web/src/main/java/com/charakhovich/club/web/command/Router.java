@@ -1,7 +1,12 @@
 package com.charakhovich.club.web.command;
 
-import java.util.HashMap;
-
+/**
+ * The type Router.
+ * Uses for returning a type of going to page
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class Router {
     public enum Type {
         FORWARD,

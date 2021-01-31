@@ -16,7 +16,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
-
+/**
+ * The type Change photo command.
+ * This command allows to change photo in private cabinet
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class ChangeUserPhotoCommand implements Command {
     private static final UserService userService = new UserServiceImpl();
     private static final Logger logger = LogManager.getLogger(ChangeUserPhotoCommand.class);
@@ -27,8 +33,8 @@ public class ChangeUserPhotoCommand implements Command {
         try {
             InputStream photo = req.getPart(PageParam.PARAM_USER_PHOTO).getInputStream();
             userService.updatePhoto(user.getUserId(), photo);
-            Optional<User> authUser = userService.findUserByLogin(user.getLogin());
-            session.setAttribute(PageAttribute.AUTH_USER, authUser);
+           Optional<User> authUser = userService.findUserByLogin(user.getLogin());
+            session.setAttribute(PageAttribute.AUTH_USER, authUser.get());
         } catch (IOException | ServletException | ServiceException ex) {
             logger.log(Level.ERROR, ex);
             return new Router(PagePath.REDIRECT_ERROR_500, Router.Type.REDIRECT);

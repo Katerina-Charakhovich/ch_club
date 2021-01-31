@@ -3,6 +3,7 @@ package com.charakhovich.club.web.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -10,13 +11,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * The type Mail sender.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class MailSender {
     private static final Logger logger = LogManager.getLogger(MailSender.class);
     private static final MailSender INSTANCE = new MailSender();
     private static final String MAIL_PROPERTIES = "mail.properties";
     private static final String USER_NAME = "mail.smtp.user";
     private static final String USER_PASSWORD = "mail.smtp.password";
- //   private Session session;
     private Properties mailProperties = new Properties();
 
     public static MailSender getINSTANCE() {
@@ -33,6 +39,13 @@ public class MailSender {
         }
     }
 
+    /**
+     * Send message
+     *
+     * @param sendTo  the recipient address
+     * @param subject the subject
+     * @param text    the text
+     */
     public boolean sendMessage(String sendTo, String subject, String text) {
         boolean isSend = false;
         try {
@@ -41,7 +54,7 @@ public class MailSender {
             Session session = Session.getDefaultInstance(mailProperties,
                     new javax.mail.Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username,userPassword);
+                            return new PasswordAuthentication(username, userPassword);
                         }
                     });
             session.setDebug(true);
@@ -55,7 +68,7 @@ public class MailSender {
         } catch (MessagingException e) {
             e.printStackTrace();
             logger.log(Level.ERROR, e);
-        }finally {
+        } finally {
         }
         return isSend;
     }

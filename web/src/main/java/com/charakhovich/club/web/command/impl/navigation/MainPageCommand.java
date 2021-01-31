@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * The type main page command.
+ * This command prepares data for "Main" page view
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class MainPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(MainPageCommand.class);
     private static final EventService eventService = new EventServiceImpl();
@@ -24,7 +31,7 @@ public class MainPageCommand implements Command {
         try {
             List<Event> listTheatre = eventService.findAll(Event.Type.THEATRE,
                     new Page(ApplicationParam.DEFAULT_PAGINATION_NUMBER, 3));
-            List<Event> listQuest = eventService.findAll(Event.Type.QUEST, 
+            List<Event> listQuest = eventService.findAll(Event.Type.QUEST,
                     new Page(ApplicationParam.DEFAULT_PAGINATION_NUMBER, 3));
             req.setAttribute(PageAttribute.LIST_THEATRE, listTheatre);
             req.setAttribute(PageAttribute.LIST_QUEST, listQuest);

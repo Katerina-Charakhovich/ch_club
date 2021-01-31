@@ -6,6 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
+/**
+ * The type change local command.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 public class LocaleCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp)  {

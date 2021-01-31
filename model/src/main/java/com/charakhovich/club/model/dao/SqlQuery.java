@@ -7,8 +7,8 @@ public class SqlQuery {
             "WHERE user_id = ?";
     public static final String UPDATE_USER_STATE = "UPDATE ch_user SET state = ? WHERE user_id = ?";
     public static final String UPDATE_USER_PASSWORD = "UPDATE ch_user " +
-            "SET password = ? " +
-            "WHERE user_id = ?";
+            "SET password =? " +
+            "WHERE user_id =?";
 
     public static final String SELECT_PASSWORD_BY_LOGIN =
             "SELECT password FROM ch_user where login=?";
@@ -34,7 +34,10 @@ public class SqlQuery {
             "and state in (?,?)";
     public static final String UPDATE_USER =
             "UPDATE ch_user SET firstname=?,lastname=?,phone = ?WHERE (user_id =?)";
-
+    public static final String UPDATE_USER_BALANCE_MINUS=
+            "UPDATE ch_user SET balance =balance-? WHERE user_id =?";
+    public static final String UPDATE_USER_BALANCE_ADD=
+            "UPDATE ch_user SET balance =balance+? WHERE user_id =?";
 
     public static final String INSERT_TICKET = "INSERT INTO ch_ticket (eventdate_id,user_id,count,ticket_state) VALUES (?, ?, ?, ?)";
 
@@ -134,6 +137,10 @@ public class SqlQuery {
                     "where t.event_id=? and t.state in (?,?) and t.date>= now() " +
                     "order by t.date asc LIMIT ?,?";
     public static final String SELECT_COUNT_DATES_BY_EVENTID = "SELECT COUNT(*) as count_dates FROM " +
+            "(SELECT distinct DATE_FORMAT(t.date,'%d/%m/%y') as date_ " +
+            "FROM ch_eventdate t  where t.event_id=? and t.state in (?) " +
+            "and t.date>= now()  order by t.date asc ) as dates";
+    public static final String SELECT_COUNT_DATES_BY_EVENTID_AVAILABLE = "SELECT COUNT(*) as count_dates FROM " +
             "(SELECT distinct DATE_FORMAT(t.date,'%d/%m/%y') as date_ " +
             "FROM ch_eventdate t  where t.event_id=? and t.state in (?) " +
             "and t.date>= now()  order by t.date asc ) as dates";

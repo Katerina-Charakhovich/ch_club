@@ -8,6 +8,12 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
+/**
+ * The type Encoding filter.
+ *
+ * @author Katerina Charakhovich
+ * @version 1.0
+ */
 @WebFilter(filterName = "EncodingFilter",
         urlPatterns = "/*")
 public class EncodingFilter implements Filter {
@@ -17,7 +23,7 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) {
-        logger.log(Level.INFO,"Filter init() start");
+        logger.log(Level.INFO, "Filter init() start");
         ServletContext context = config.getServletContext();
         FilterRegistration registration1 = context.getFilterRegistration("PageSecurityFilter");
         registration1.addMappingForServletNames(null, true, "/do");
