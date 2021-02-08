@@ -28,7 +28,7 @@ public final class ConnectionPool {
     private ConnectorCreator connectorCreator = ConnectorCreator.getInstance();
     private int poolSize;
     private static ReentrantLock lock = new ReentrantLock();
-    private static AtomicBoolean create = new AtomicBoolean(false);
+    private static AtomicBoolean isCreate = new AtomicBoolean(false);
     static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
 
@@ -47,11 +47,12 @@ public final class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (!create.get()) synchronized (ConnectionPool.class) {
+        if (!isCreate.get()) {
             try {
                 lock.lock();
                 if (instance == null) {
                     instance = new ConnectionPool();
+                    isCreate.set(true);
                 }
             } finally {
                 lock.unlock();
@@ -65,7 +66,7 @@ public final class ConnectionPool {
      *
      * @return the proxy connection
      */
-    public Connection getConnection()  {
+    public Connection getConnection() {
         ProxyConnection connection = null;
         try {
             connection = freeConnections.take();

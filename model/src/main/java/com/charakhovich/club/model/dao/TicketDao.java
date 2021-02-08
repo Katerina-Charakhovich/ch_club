@@ -37,11 +37,10 @@ public interface TicketDao {
      * Returns a list of tickets by event
      *
      * @param eventId the event id
-     * @param page    the  page
      * @return the list
      * @throws DaoException the dao exception
      */
-    List<Ticket> findTicketUser(long eventId, Page page) throws DaoException;
+    List<Ticket> findTicketUser(long eventId) throws DaoException;
 
     /**
      * Returns a count of tickets by event id

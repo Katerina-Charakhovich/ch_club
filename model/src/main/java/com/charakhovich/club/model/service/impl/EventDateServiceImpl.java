@@ -9,6 +9,7 @@ import com.charakhovich.club.model.entity.Ticket;
 import com.charakhovich.club.model.exeption.DaoException;
 import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.EventDateService;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -96,7 +97,7 @@ public class EventDateServiceImpl implements EventDateService {
     @Override
     public List<LocalDate> findEventDatesQuest(long eventId, Page page) throws ServiceException {
         EntityTransaction transaction = new EntityTransaction();
-        transaction.initSingleQuery( eventDateDao);
+        transaction.initSingleQuery(eventDateDao);
         List<LocalDate> listDates;
         try {
             listDates = eventDateDao.findEventDatesQuest(eventId, page);
@@ -111,7 +112,7 @@ public class EventDateServiceImpl implements EventDateService {
     @Override
     public List<LocalDate> findAvailableEventDatesQuest(long eventId, Page page) throws ServiceException {
         EntityTransaction transaction = new EntityTransaction();
-        transaction.initSingleQuery( eventDateDao);
+        transaction.initSingleQuery(eventDateDao);
         List<LocalDate> listDates;
         try {
             List<LocalDate> tempListEventDate = eventDateDao.findEventDatesQuest(eventId, page);
@@ -128,7 +129,7 @@ public class EventDateServiceImpl implements EventDateService {
     @Override
     public int count(long eventId) throws ServiceException {
         EntityTransaction transaction = new EntityTransaction();
-        transaction.initSingleQuery( eventDateDao);
+        transaction.initSingleQuery(eventDateDao);
         int result = 0;
         try {
             result = eventDateDao.count(eventId);
@@ -185,16 +186,20 @@ public class EventDateServiceImpl implements EventDateService {
         int result = -1;
         EntityTransaction transaction = new EntityTransaction();
         try {
-            transaction.initSingleQuery(eventDateDao, eventDao);
+            transaction.initTransaction(eventDateDao, eventDao);
             Optional<Event> eventOptional = eventDao.findEntityById(eventId);
-            int i = 0;
-            while (flag) {
-                LocalDateTime localDateTime = localDate.atTime(starTime.plusMinutes((long) (eventOptional.get().getDuration() * 60 * i)));
-                EventDate eventDate = new EventDate(eventId, localDateTime, cost, 1);
-                result = eventDateDao.create(eventDate);
-                LocalDateTime newTime = localDate.atTime(starTime.plusMinutes((long) (eventOptional.get().getDuration() * 60 * (i + 1))));
-                flag = newTime.toLocalTime().compareTo(endTime) > 0 ? false : true;
-                i++;
+            List<LocalDate> listdates = eventDateDao.findEventDatesQuest(eventId);
+            long count = listdates.stream().filter(s -> s.equals(localDate)).count();
+            if (count < 1) {
+                int i = 0;
+                while (flag) {
+                    LocalDateTime localDateTime = localDate.atTime(starTime.plusMinutes((long) (eventOptional.get().getDuration() * 60 * i)));
+                    EventDate eventDate = new EventDate(eventId, localDateTime, cost, 1);
+                    result = eventDateDao.create(eventDate);
+                    LocalDateTime newTime = localDate.atTime(starTime.plusMinutes((long) (eventOptional.get().getDuration() * 60 * (i + 1))));
+                    flag = newTime.toLocalTime().compareTo(endTime) > 0 ? false : true;
+                    i++;
+                }
             }
         } catch (DaoException e) {
             try {
@@ -204,7 +209,7 @@ public class EventDateServiceImpl implements EventDateService {
             }
             throw new ServiceException(e);
         } finally {
-            transaction.endSingleQuery();
+            transaction.endTransaction();
         }
         return result;
     }
@@ -215,7 +220,7 @@ public class EventDateServiceImpl implements EventDateService {
         EntityTransaction transaction = new EntityTransaction();
         try {
             transaction.initTransaction(eventDateDao, ticketDao, userDao);
-            Optional<EventDate> eventDate = eventDateDao.findEntityById(ticket.getScheduleId());
+            Optional<EventDate> eventDate = eventDateDao.findEntityById(ticket.getEventDateId());
             if (eventDate.get().getFreeTicketCount() >= ticket.getCountTicket()) {
                 result = ticketDao.create(ticket);
             }

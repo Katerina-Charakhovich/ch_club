@@ -1,8 +1,10 @@
 package com.charakhovich.club.model.service.impl;
 
 import com.charakhovich.club.model.dao.EntityTransaction;
+import com.charakhovich.club.model.dao.impl.TicketDaoImpl;
 import com.charakhovich.club.model.dao.impl.UserDaoImpl;
 import com.charakhovich.club.model.entity.Page;
+import com.charakhovich.club.model.entity.Ticket;
 import com.charakhovich.club.model.entity.User;
 import com.charakhovich.club.model.exeption.DaoException;
 import com.charakhovich.club.model.exeption.ServiceException;
@@ -12,14 +14,18 @@ import com.charakhovich.club.model.util.PictureUtil;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
     private UserDaoImpl userDao;
+    private TicketDaoImpl ticketDao;
 
     public UserServiceImpl() {
+
         userDao = new UserDaoImpl();
+        ticketDao = new TicketDaoImpl();
     }
 
     private static final int PHOTO_WIDTH = 200;
@@ -46,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> registry(User user, String userPassword, String verificationCode) throws ServiceException{
+    public Optional<User> registry(User user, String userPassword, String verificationCode) throws ServiceException {
         Optional<User> userResult = Optional.empty();
         EntityTransaction transaction = new EntityTransaction();
         try {
@@ -93,7 +99,7 @@ public class UserServiceImpl implements UserService {
         transaction.initSingleQuery(userDao);
         try {
             InputStream newPhoto = PictureUtil.resizeImage(photo, PHOTO_WIDTH);
-            isUpdate = userDao.updatePhoto(userId, photo);
+            isUpdate = userDao.updatePhoto(userId,newPhoto);
         } catch (DaoException ex) {
             try {
                 transaction.rollback();
@@ -199,6 +205,21 @@ public class UserServiceImpl implements UserService {
             transaction.endTransaction();
         }
         return result;
+    }
+
+    @Override
+    public List<Ticket> findUserTickets(long userId) throws ServiceException {
+        List<Ticket> tickets = new ArrayList<>();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.initSingleQuery(ticketDao);
+        try {
+            tickets = ticketDao.findTicketUser(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        } finally {
+            transaction.endSingleQuery();
+        }
+        return tickets;
     }
 
     @Override

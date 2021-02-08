@@ -1,13 +1,18 @@
 package com.charakhovich.club.model.entity;
 
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 public class Ticket extends Entity {
     private long ticketId;
     private long eventDateId;
     private long userId;
     private State state;
     private int countTicket;
-
+    private String eventName;
+    private String userName;
+    private LocalDateTime dateTime;
 
     public Ticket() {
     }
@@ -33,6 +38,29 @@ public class Ticket extends Entity {
         CANCEL();
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public long getEventDateId() {
+        return eventDateId;
+    }
+
+    public void setEventDateId(long eventDateId) {
+        this.eventDateId = eventDateId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String description) {
+        this.eventName = description;
+    }
 
     public long getTicketId() {
         return ticketId;
@@ -42,15 +70,7 @@ public class Ticket extends Entity {
         this.ticketId = ticketId;
     }
 
-    public long getScheduleId() {
-        return eventDateId;
-    }
-
-    public void setScheduleId(long scheduleId) {
-        this.eventDateId = scheduleId;
-    }
-
-    public long getUserId() {
+        public long getUserId() {
         return userId;
     }
 
@@ -74,31 +94,42 @@ public class Ticket extends Entity {
         this.countTicket = countTicket;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return userId == ticket.userId &&
-                countTicket == ticket.countTicket &&
-                state == ticket.state;
+        return ticketId == ticket.ticketId &&
+                eventDateId == ticket.eventDateId &&
+                userId == ticket.userId &&
+                countTicket == ticket.countTicket;
+
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = (int) (result * prime + userId);
-        result = result * prime + countTicket;
-        result = result * prime + state.hashCode();
+        int result = (int) (ticketId ^ (ticketId >>> 32));
+        result = prime * result + (int) (eventDateId ^ (eventDateId >>> 32));
+        result = prime * result + (int) (userId ^ (userId >>> 32));
+        result = prime * result + countTicket;
         return result;
     }
+
 
     @Override
     public String toString() {
         StringBuilder strResult = new StringBuilder("Ticket {");
-        strResult.append("{id=").append(ticketId).append(';');
+        strResult.append("{ticketId=").append(ticketId).append(';');
+        strResult.append(" userId").append(userId);
         strResult.append(" eventDateId=").append(eventDateId);
         strResult.append(" countTicket=").append(countTicket);
         strResult.append(" statusTicket=").append(state.toString());

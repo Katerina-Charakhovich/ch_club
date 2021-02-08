@@ -44,7 +44,6 @@ public class MessageEventServiceImpl implements MessageEventService {
 
     @Override
     public List<MessageEvent> findMessagesEvent(long eventId, Page page) throws ServiceException {
-        MessageEventDaoImpl messageEventDao = new MessageEventDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         transaction.initSingleQuery(messageEventDao, userDao, eventDao);
         List<MessageEvent> listMessageEvent;

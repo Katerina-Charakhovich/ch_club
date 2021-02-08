@@ -80,9 +80,9 @@ public class MessageEvent extends Entity {
     public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = result * prime + event.hashCode();
-            result = result * prime + user.hashCode();
-            result = result * prime + text.hashCode();
+            result = prime * result + event.hashCode();
+            result = prime * result + user.hashCode();
+            result = prime * result + text.hashCode();
             return result;
         }
 

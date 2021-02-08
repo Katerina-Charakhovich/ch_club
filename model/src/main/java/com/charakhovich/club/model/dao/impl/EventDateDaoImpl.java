@@ -263,4 +263,29 @@ public class EventDateDaoImpl extends AbstractDao<EventDate> implements EventDat
         return listLocalDates;
 
     }
+
+    @Override
+    public List<LocalDate> findEventDatesQuest(long eventId) throws DaoException {
+        List<LocalDate> listLocalDates = new ArrayList<>();
+        Connection connection = this.connection;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SqlQuery.SELECT_DATES_BY_EVENTID);
+            statement.setLong(1, eventId);
+            statement.setString(2, EventDate.State.ACTUAL.toString());
+            statement.setString(3, EventDate.State.BOOKED.toString());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next() && !resultSet.wasNull()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+                String dateString = resultSet.getString("date_");
+                LocalDate localDate = LocalDate.parse(dateString, formatter);
+                listLocalDates.add(localDate);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            statementClose(statement);
+        }
+        return listLocalDates;
+    }
 }

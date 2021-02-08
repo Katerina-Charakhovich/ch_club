@@ -6,6 +6,7 @@ import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.EventService;
 import com.charakhovich.club.model.service.impl.EventServiceImpl;
 import com.charakhovich.club.web.command.*;
+import com.charakhovich.club.web.util.CookieHandler;
 import com.charakhovich.club.web.validation.DataValidate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +42,8 @@ public class EventAddCommand implements Command {
                 Event.Type eventType = Event.Type.valueOf(commandParams.get(PageAttribute.EVENT_TYPE).toUpperCase());
                 String eventDescription = commandParams.get(PageParam.EVENT_DESCRIPTION);
                 String eventShortDescription = commandParams.get(PageParam.EVENT_SHORT_DESCRIPTION);
-                double eventDuration = Double.parseDouble(commandParams.get(PageParam.PARAM_EVENT_DURATION));
+                String eventDurationString = commandParams.get(PageParam.PARAM_EVENT_DURATION);
+                double eventDuration = Double.parseDouble(eventDurationString);
                 Event event = new Event(eventType, eventName, eventDescription, eventShortDescription, eventDuration);
                 List<Part> list = (List<Part>) req.getParts();
                 List<InputStream> addListPicture = new ArrayList<>();
@@ -59,7 +61,7 @@ public class EventAddCommand implements Command {
                 }
                 long resultEventId = eventService.create(event, mainPicture, addListPicture);
                 if (resultEventId > 0) {
-                    resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(resultEventId)));
+                    resp.addCookie(CookieHandler.create(PageCookieName.EVENT_ID, String.valueOf(resultEventId)));
                     return new Router(PagePath.REDIRECT_ADMIN_EVENT_VIEW, Router.Type.REDIRECT);
                 } else {
                     return new Router(PagePath.ADMIN_EVENTS, Router.Type.REDIRECT);

@@ -35,10 +35,10 @@
         </tr>
         <c:forEach items="${listMessages}" var="message">
             <tr>
-                <td>${message.getEvent().getName()}</td>
-                <td>${message.getUser().fullName()}</td>
-                <td>${message.getText()}</td>
-                <td>${message.getModifyDate()}</td>
+                <td><c:out value="${message.getEvent().getName()}"/></td>
+                <td><c:out value="${message.getUser().fullName()}"/></td>
+                <td><c:out value="${message.getText()}"/></td>
+                <td><c:out value="${message.getModifyDate()}"/></td>
                 <td>
                     <form action="${pageContext.request.contextPath}/do/admin_message_approve" method="post">
                         <button type="submit" class="button" name="messageId"

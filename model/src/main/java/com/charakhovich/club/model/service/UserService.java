@@ -1,6 +1,7 @@
 package com.charakhovich.club.model.service;
 
 import com.charakhovich.club.model.entity.Page;
+import com.charakhovich.club.model.entity.Ticket;
 import com.charakhovich.club.model.entity.User;
 import com.charakhovich.club.model.exeption.ServiceException;
 
@@ -103,6 +104,15 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     boolean updatePassword(long userId, String newPassword) throws ServiceException;
+
+    /**
+     * Find user tickets.
+     *
+     * @param userId      the user id
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List <Ticket> findUserTickets(long userId) throws ServiceException;
 
     /**
      * Updates user info.

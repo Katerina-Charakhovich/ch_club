@@ -13,7 +13,6 @@
 </head>
 <body>
 <c:import url="common/header_admin.jsp"/>
-<!-- MAIN -->
 <main class="main">
     <div class="container text-center">
         <input type="hidden" name="command" value="ticket_sale">
@@ -106,8 +105,10 @@
                                             <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"
                                                             var="datetime"/>
                                                 ${datetime}</td>
-                                        <td>${eventDate.getTicketCost()}</td>
-                                        <td>${eventDate.getFreeTicketCount()}</td>
+                                        <td><c:out
+                                                value="${eventDate.getTicketCost()}"></c:out></td>
+                                        <td><c:out
+                                                value="${eventDate.getFreeTicketCount()}"></c:out></td>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${eventDate.getFreeTicketCount()>0}">
@@ -127,7 +128,7 @@
                                         </td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${eventDate.getFreeTicketCount()>0 && not empty authUser}">
+                                                <c:when test="${not empty authUser && authUser.getRole().toString()=='USER' && eventDate.getFreeTicketCount()>0}">
                                                     <button type="submit" class="button"
                                                             name="eventId"
                                                             value="${event.getEventId()}"
@@ -205,7 +206,7 @@
                             </br>
                             <div>
                                 <form action="${pageContext.request.contextPath}/do" method="get">
-                                    <input type="hidden" name="commandNext" value="admin_event_dates">
+                                    <input type="hidden" name="commandNext" value="EVENT_TICKET_SALE">
                                     <ctg:pagination/>
                                 </form>
                             </div>

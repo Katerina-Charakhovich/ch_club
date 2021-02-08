@@ -1,6 +1,7 @@
 package com.charakhovich.club.web.command.impl;
 
 import com.charakhovich.club.web.command.*;
+import com.charakhovich.club.web.util.CookieHandler;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public class PaginationCommand implements Command {
         HttpSession session = req.getSession();
         String currentCommand = (String) session.getAttribute(PageAttribute.CURRENT_COMMAND);
         int number_page = Integer.parseInt(req.getParameter(PageParam.PARAM_PAGE));
-        Cookie cookie = new Cookie(PageCookieName.PAGINATION_NUMBER_PAGE, String.valueOf(number_page));
+        Cookie cookie = CookieHandler.create(PageCookieName.PAGINATION_NUMBER_PAGE, String.valueOf(number_page));
         resp.addCookie(cookie);
         StringBuilder page = new StringBuilder().append(ApplicationParam.CONTROLLER_REGEX).append(currentCommand)
                 .append(ONE_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).append(SIGN_EQUALS).append(number_page);

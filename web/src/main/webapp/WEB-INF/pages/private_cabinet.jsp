@@ -13,7 +13,6 @@
 </head>
 <body>
 <c:import url="common/header_admin.jsp"/>
-<!-- MAIN -->
 <main class="main">
     <div class="container">
         <div>
@@ -24,7 +23,7 @@
                             <fmt:message
                                     key="privateCabinet.tab.userInfo"/></a>
                     </li>
-                    <c:if test="${sessionScope.authUser.getRole()=='ADMIN'}">
+                    <c:if test="${sessionScope.authUser.getRole()=='USER'}">
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#account"> <fmt:message
                                     key="privateCabinet.tab.balance"/></a>
@@ -192,7 +191,37 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tickets">
+                        <table style="with: 50%" border="1">
+                            <tr>
+                                <th>
+                                    <fmt:message key="ticket.number"/>
+                                </th>
+                                <th>
+                                    <fmt:message key="ticket.date"/>
+                                </th>
+                                <th>
+                                    <fmt:message key="ticket.eventName"/>
+                                </th>
+                                <th>
+                                    <fmt:message key="ticket.count"/>
+                                </th>
+                                <th>
+                                    <fmt:message key="ticket.state"/>
+                                </th>
 
+                            </tr>
+                            <c:forEach items="${authUser.getListTicket()}" var="ticket">
+                                <div>
+                                    <tr>
+                                        <td><c:out value="${ticket.getTicketId()}"/></td>
+                                        <td><c:out value="${ticket.getDateTime()}"/></td>
+                                        <td><c:out value="${ticket.getEventName()}"/></td>
+                                        <td><c:out value="${ticket.getCountTicket()}"/></td>
+                                        <td><c:out value="${ticket.getState()}"/></td>
+                                    </tr>
+                                </div>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>
             </div>

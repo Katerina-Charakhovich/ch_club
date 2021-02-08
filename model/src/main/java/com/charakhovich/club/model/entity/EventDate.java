@@ -29,7 +29,6 @@ public class EventDate extends Entity {
     }
 
 
-
     public EventDate() {
     }
 
@@ -103,16 +102,19 @@ public class EventDate extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventDate eventDate = (EventDate) o;
-        return eventId == eventDate.eventId &&
-                ticketCount == eventDate.ticketCount &&
-                ticketCost == eventDate.ticketCost &&
+        return eventDateId == eventDate.eventDateId &&
+                eventId == eventDate.eventId &&
                 eventDateTime.equals(eventDate.eventDateTime);
     }
 
-    @Override
     public int hashCode() {
-        return Objects.hash(eventId, eventDateTime, ticketCount, ticketCost);
+        final int prime = 31;
+        int result = (int) (eventDateId ^ (eventDateId >>> 32));
+        result = prime * result + (int) (eventId ^ (eventId >>> 32));
+        result = prime * result + eventDateTime.hashCode();
+        return result;
     }
+
 
     @Override
     public String toString() {

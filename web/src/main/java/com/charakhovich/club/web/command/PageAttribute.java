@@ -27,6 +27,7 @@ public class PageAttribute {
     public static final String EVENT_DATES = "listEventDates";
     public static final String IMAGE_NAME = "imageName";
     public static final String LIST_PICTURE = "listPictures";
+    public static final String QUEST_DATES="questdates";
 
     public static final String UPLOAD_IMAGE_RESULT = "uploadResult";
     public static final String PAGINATION_NUMBER_PAGE = "numberPage";
@@ -65,6 +66,7 @@ public class PageAttribute {
     public static final String IS_AMOUNT_VALID="isAmountValid";
     public static final String IS_TICKET_PAID="isTicketPaid";
     public static final String IS_TICKET_BOOKED="isTicketBooked";
+    public static final String IS_INVALID_QUEST_TIME="isInvalidQuestTime";
 
     private PageAttribute() {
     }

@@ -8,7 +8,7 @@ package com.charakhovich.club.web.command;
  */
 public class PagePath {
     public static final String REDIRECT_MAIN = "/do/MAIN_PAGE_VIEW";
-    public static final String REDIRECT_ADMIN_EVENT_VIEW = "/do/ADMIN_EVENT_VIEW";
+    public static final String REDIRECT_ADMIN_EVENT_VIEW = "/do/ADMIN_EVENT_EDIT";
     public static final String REDIRECT_EVENT_VIEW = "/do/EVENT_VIEW";
     public static final String REDIRECT_ADMIN_EVENTS = "/do/ADMIN_EVENTS";
     public static final String REDIRECT_ADMIN_MESSAGES = "/do/ADMIN_MESSAGES";

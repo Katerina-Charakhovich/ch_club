@@ -71,4 +71,12 @@ public interface EventDateDao {
      * @throws DaoException the dao exception
      */
     List<LocalDate> findEventDatesQuest(long eventId, Page page) throws DaoException;
+    /**
+     * Returns a list of dates by event .
+     *
+     * @param eventId the event id
+     * @return the int
+     * @throws DaoException the dao exception
+     */
+    List<LocalDate> findEventDatesQuest(long eventId) throws DaoException;
 }

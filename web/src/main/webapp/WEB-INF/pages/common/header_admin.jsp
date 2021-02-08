@@ -110,8 +110,8 @@
             <img src="${pageContext.request.contextPath}/images/banner.jpg" style="width:100%;">
             <div id="bannertext" style="position:absolute; top:10%; width:100%; text-align:center; color:white;">
                 <div class="hidden-xs">
-                    <h1>Мы предлагаем<br/>
-                        <small style="color: white;">проведение праздников для вас и ваших детей</small>
+                    <h1> <fmt:message key="header.title.first"/><br/>
+                        <small style="color: white;"><fmt:message key="header.title.second"/></small>
                     </h1>
                 </div>
             </div>

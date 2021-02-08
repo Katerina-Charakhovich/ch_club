@@ -3,7 +3,7 @@ $(document).ready(function () {
         $("#commentAddBlock").prop('hidden', false);
         $("#addComment").prop('hidden', true);
     });
-    $("#cancel").click(function () {
+    $("#cancelSaveComment").click(function () {
         $("#commentAddBlock").prop('hidden', true);
         $("#eventMessage").val("");
         $("#addComment").prop('hidden', false);

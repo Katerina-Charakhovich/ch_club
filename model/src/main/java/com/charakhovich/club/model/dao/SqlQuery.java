@@ -2,6 +2,10 @@ package com.charakhovich.club.model.dao;
 
 public class SqlQuery {
     public static final String COUNT_USERS = "count_users";
+    public static final String TICKET_DATE = "ticketDate";
+    public static final String EVENT_NAME = "eventName";
+    public static final String FIRSTNAME = "firstName";
+    public static final String LASTNAME = "firstName";
     public static final String UPDATE_USER_PHOTO = "UPDATE ch_user " +
             "SET photo = ? " +
             "WHERE user_id = ?";
@@ -12,7 +16,7 @@ public class SqlQuery {
 
     public static final String SELECT_PASSWORD_BY_LOGIN =
             "SELECT password FROM ch_user where login=?";
-    public static final String SELECT_VERIFICATION_CODE_BY_LOGIN=
+    public static final String SELECT_VERIFICATION_CODE_BY_LOGIN =
             "SELECT verification_code FROM ch_user where login=?";
     public static final String SELECT_USER_BY_LOGIN =
             "SELECT user_id, login,firstname,lastname,role, state, photo,phone,balance FROM ch_user where login=?";
@@ -34,13 +38,18 @@ public class SqlQuery {
             "and state in (?,?)";
     public static final String UPDATE_USER =
             "UPDATE ch_user SET firstname=?,lastname=?,phone = ?WHERE (user_id =?)";
-    public static final String UPDATE_USER_BALANCE_MINUS=
+    public static final String UPDATE_USER_BALANCE_MINUS =
             "UPDATE ch_user SET balance =balance-? WHERE user_id =?";
-    public static final String UPDATE_USER_BALANCE_ADD=
+    public static final String UPDATE_USER_BALANCE_ADD =
             "UPDATE ch_user SET balance =balance+? WHERE user_id =?";
 
     public static final String INSERT_TICKET = "INSERT INTO ch_ticket (eventdate_id,user_id,count,ticket_state) VALUES (?, ?, ?, ?)";
-
+    public static final String SELECT_TICKETS_BY_USER_ID =
+            "SELECT t.ticket_id,t.eventdate_id,t.user_id,t.count,t.ticket_state,t1.date as ticketDate, t2.name as eventName,u.lastname as lastName, u.firstname as firstName FROM ch_ticket t\n" +
+                    "LEFT JOIN ch_user u on u.user_id=t.user_id " +
+                    "LEFT JOIN ch_eventdate t1 on t.eventdate_id=t1.eventdate_id " +
+                    "LEFT JOIN ch_event t2 on t1.event_id=t2.event_id " +
+                    "WHERE t.user_id=? " ;
     public static final String SELECT_PICTURE_BY_EVENT_BY_TYPE =
             "select t.picture_id , t.type,t.picture from ch_picture t" +
                     " where t.event_id=? and t.state=? and t.type=?";
@@ -59,7 +68,7 @@ public class SqlQuery {
     public static final String SELECT_MESSAGES_BY_STATE_LIMIT_PAGE =
             "SELECT message_id, user_id, event_id, text, modifydate FROM ch_message where state=? ORDER BY modifydate " +
                     "LIMIT ?,?";
-    public static final String UPDATE_MESSAGE_STATE=" UPDATE ch_message SET state = ? WHERE message_id = ?";
+    public static final String UPDATE_MESSAGE_STATE = " UPDATE ch_message SET state = ? WHERE message_id = ?";
     public static final String INSERT_MESSAGE = "INSERT INTO ch_message (event_id,user_id, modifydate, text,state )" +
             " VALUES (?, ?,?,?,?)";
     public static final String SELECT_COUNT_MESSAGES_BY_EVENT = "SELECT COUNT(*) as count_message FROM ch_message where event_id=? and state=?";
@@ -136,6 +145,10 @@ public class SqlQuery {
             "SELECT distinct DATE_FORMAT(t.date,'%d/%m/%y') as date_  FROM ch_eventdate t " +
                     "where t.event_id=? and t.state in (?,?) and t.date>= now() " +
                     "order by t.date asc LIMIT ?,?";
+    public static final String SELECT_DATES_BY_EVENTID =
+            "SELECT distinct DATE_FORMAT(t.date,'%d/%m/%y') as date_  FROM ch_eventdate t " +
+                    "where t.event_id=? and t.state in (?,?) and t.date>= now() " +
+                    "order by t.date asc";
     public static final String SELECT_COUNT_DATES_BY_EVENTID = "SELECT COUNT(*) as count_dates FROM " +
             "(SELECT distinct DATE_FORMAT(t.date,'%d/%m/%y') as date_ " +
             "FROM ch_eventdate t  where t.event_id=? and t.state in (?) " +
@@ -144,6 +157,7 @@ public class SqlQuery {
             "(SELECT distinct DATE_FORMAT(t.date,'%d/%m/%y') as date_ " +
             "FROM ch_eventdate t  where t.event_id=? and t.state in (?) " +
             "and t.date>= now()  order by t.date asc ) as dates";
+
     private SqlQuery() {
     }
 }

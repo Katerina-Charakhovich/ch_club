@@ -1,0 +1,80 @@
+CREATE TABLE `ch_event` (
+  `event_id` int NOT NULL AUTO_INCREMENT,
+  `type` enum('THEATRE','QUEST','ANIMATOR') NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `description` longtext NOT NULL,
+  `state` enum('ACTUAL','CANCELED') NOT NULL DEFAULT 'ACTUAL',
+  `modifydate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int DEFAULT NULL,
+  `short_description` varchar(255) NOT NULL,
+  `duration` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8
+
+CREATE TABLE `ch_eventdate` (
+  `eventdate_id` int NOT NULL AUTO_INCREMENT,
+  `event_id` int NOT NULL,
+  `date` datetime NOT NULL,
+  `state` enum('ACTUAL','BOOKED') NOT NULL DEFAULT 'ACTUAL',
+  `ticket_count` int NOT NULL DEFAULT '0',
+  `ticket_cost` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`eventdate_id`),
+  KEY `e2_idx` (`event_id`),
+  CONSTRAINT `fk_de` FOREIGN KEY (`event_id`) REFERENCES `ch_event` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=284724 DEFAULT CHARSET=utf8
+
+CREATE TABLE `ch_message` (
+  `message_id` int NOT NULL AUTO_INCREMENT,
+  `event_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `text` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `state` enum('ACTUAL','NEW','CANCEL') NOT NULL DEFAULT 'ACTUAL',
+  `modifydate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`message_id`),
+  KEY `u1_idx` (`user_id`),
+  KEY `me_idx` (`event_id`),
+  CONSTRAINT `me` FOREIGN KEY (`event_id`) REFERENCES `ch_event` (`event_id`),
+  CONSTRAINT `mu` FOREIGN KEY (`user_id`) REFERENCES `ch_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8
+
+CREATE TABLE `ch_picture` (
+  `picture_id` int NOT NULL AUTO_INCREMENT,
+  `type` enum('ADDITIONAL','MAIN') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `modifydate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `state` enum('ACTUAL','DELETED') NOT NULL DEFAULT 'ACTUAL',
+  `picture` blob,
+  `event_id` int NOT NULL,
+  PRIMARY KEY (`picture_id`),
+  KEY `pe_idx` (`event_id`),
+  CONSTRAINT `pe` FOREIGN KEY (`event_id`) REFERENCES `ch_event` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8
+
+CREATE TABLE `ch_ticket` (
+  `ticket_id` int NOT NULL AUTO_INCREMENT,
+  `eventdate_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `count` int NOT NULL,
+  `ticket_state` enum('PAID','CANCEL','BOOKED') DEFAULT 'PAID',
+  PRIMARY KEY (`ticket_id`),
+  KEY `e3_idx` (`eventdate_id`),
+  KEY `tu_idx` (`user_id`),
+  CONSTRAINT `ted` FOREIGN KEY (`eventdate_id`) REFERENCES `ch_eventdate` (`eventdate_id`),
+  CONSTRAINT `tu` FOREIGN KEY (`user_id`) REFERENCES `ch_user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8
+
+CREATE TABLE `ch_user` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `login` varchar(45) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `firstname` varchar(20) NOT NULL,
+  `lastname` varchar(45) NOT NULL,
+  `state` enum('ACTUAL','BLOCKED','UNCONFIRMED') NOT NULL DEFAULT 'ACTUAL',
+  `role` enum('ADMIN','USER') NOT NULL,
+  `modifydate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `phone` varchar(45) NOT NULL,
+  `photo` blob,
+  `verification_code` varchar(20) DEFAULT NULL,
+  `balance` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `login_UNIQUE` (`login`)
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8

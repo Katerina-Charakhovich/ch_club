@@ -59,6 +59,7 @@ public class EventTicketSalePageCommand implements Command {
                     }
                 }
             }
+            StringBuilder currentCommandString;
             eventId = eventId < 0 ? Long.parseLong(req.getParameter(PageParam.PARAM_EVENT_ID)) : eventId;
             Optional<Event> event = eventService.findEntityById(eventId);
             if (event.get().getEventType() == Event.Type.THEATRE) {
@@ -67,18 +68,23 @@ public class EventTicketSalePageCommand implements Command {
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                         orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER));
                 int numberPage = Integer.parseInt(str);
-                          List<EventDate> listEventDates = eventDateService.findEventAvailableDates(eventId,
-                //  List<EventDate> listEventDates = eventDateService.findEventDates(eventId,
+                List<EventDate> listEventDates = eventDateService.findEventAvailableDates(eventId,
                         new Page(numberPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
                 req.setAttribute(PageAttribute.EVENT_VIEW, event.get());
                 req.setAttribute(PageAttribute.EVENT_VIEW_ADDITIONAL_PICTURES, event.get().getListAdditionalPicture());
                 req.setAttribute(PageAttribute.EVENT_DATES, listEventDates);
                 req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
                 req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
-                req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.EVENT_TICKET_SALE.toString());
+                currentCommandString = new StringBuilder(CommandType.EVENT_TICKET_SALE.toString()).
+                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageAttribute.EVENT_VIEW_ID).
+                        append(ApplicationParam.SIGN_EQUALS).append(event.get().getEventId()).
+                        append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).
+                        append(ApplicationParam.SIGN_EQUALS).append(numberPage).
+                        append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_COUNT_PAGES).
+                        append(ApplicationParam.SIGN_EQUALS).append(countPages);
+                req.setAttribute(PageAttribute.CURRENT_COMMAND,currentCommandString.toString());
             }
             if (event.get().getEventType() == Event.Type.QUEST) {
-                //         int countDates = eventDateService.countAvailableDates(eventId);
                 int countDates = eventDateService.countDates(eventId);
                 int countPages = (int) Math.ceil(countDates * 1.0 / Page.RECORD_NUMBER);
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
@@ -87,7 +93,6 @@ public class EventTicketSalePageCommand implements Command {
                 HashMap<String, List<EventDate>> dates = new HashMap<>();
                 List<LocalDate> listLocalDates;
                 listLocalDates = eventDateService.findAvailableEventDatesQuest(eventId,
-   //             listLocalDates = eventDateService.findEventDatesQuest(eventId,
                         new Page(numberPage, ApplicationParam.DEFAULT_COUNT_VIEW_QUEST_DATES));
                 for (LocalDate localDate : listLocalDates
                 ) {
@@ -97,14 +102,21 @@ public class EventTicketSalePageCommand implements Command {
                     String strDate = localDate.getDayOfMonth() + " " + localDate.getMonth() + " " + localDate.getDayOfWeek();
                     dates.put(strDate, listEventDates);
                 }
+
                 req.setAttribute(PageAttribute.EVENT_VIEW, event.get());
                 req.setAttribute(PageAttribute.EVENT_VIEW_ADDITIONAL_PICTURES, event.get().getListAdditionalPicture());
                 req.setAttribute(PageAttribute.QUEST_SCHEDULE, dates);
                 req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
                 req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
-                req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.EVENT_TICKET_SALE.toString());
+                currentCommandString = new StringBuilder(CommandType.EVENT_TICKET_SALE.toString()).
+                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageAttribute.EVENT_VIEW_ID).
+                        append(ApplicationParam.SIGN_EQUALS).append(event.get().getEventId()).
+                        append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).
+                        append(ApplicationParam.SIGN_EQUALS).append(numberPage).
+                        append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_COUNT_PAGES).
+                        append(ApplicationParam.SIGN_EQUALS).append(countPages);
+                req.setAttribute(PageAttribute.CURRENT_COMMAND,currentCommandString.toString());
             }
-
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);
             e.printStackTrace();

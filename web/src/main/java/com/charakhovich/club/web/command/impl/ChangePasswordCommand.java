@@ -6,6 +6,7 @@ import com.charakhovich.club.model.service.UserService;
 import com.charakhovich.club.model.service.impl.UserServiceImpl;
 import com.charakhovich.club.web.command.*;
 import com.charakhovich.club.model.util.Encryptor;
+import com.charakhovich.club.web.util.CookieHandler;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +44,7 @@ public class ChangePasswordCommand implements Command {
                     if (newPassword.equals(repeatedNewPassword)) {
                         String hashNewPassword =Encryptor.hashPassword(newPassword);
                         boolean result=userService.updatePassword(authUser.getUserId(), hashNewPassword);
-                        resp.addCookie(new Cookie(PageCookieName.IS_CORRECT_CHANGE_PASSWORD, "true"));
+                        resp.addCookie(CookieHandler.create(PageCookieName.IS_CORRECT_CHANGE_PASSWORD, "true"));
                         return new Router(PagePath.REDIRECT_PRIVATE_CABINET_PAGE, Router.Type.REDIRECT);
                     } else {
                         req.setAttribute(PageAttribute.IS_NONEQUIVALENT_PASSWORD, "true");

@@ -54,7 +54,7 @@ public class TableColumnName {
     public static final String TICKET_DAO_SCHEDULE_ID = "eventdate_id";
     public static final String TICKET_DAO_USER_ID = "user_id";
     public static final String TICKET_DAO_STATE = "ticket_state";
-    public static final String TICKET_DAO_TICKET_COUNT = "ticket_count";
+    public static final String TICKET_DAO_TICKET_COUNT = "count";
 
     public TableColumnName() {
     }

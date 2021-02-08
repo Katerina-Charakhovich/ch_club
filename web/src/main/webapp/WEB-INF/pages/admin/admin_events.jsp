@@ -32,9 +32,9 @@
         <c:forEach items="${listEvent}" var="event">
             <div>
                 <tr>
-                    <td>${event.getName()}</td>
-                    <td>${event.getEventType().toString()}</td>
-                    <td>${event.getShortDescription()}</td>
+                    <td><c:out value="${event.getName()}"/></td>
+                    <td><c:out value="${event.getEventType().toString()}"></td>
+                    <td><c:out value="${event.getShortDescription()}"/></c:out></td>
                     <td>
                         <form action="${pageContext.request.contextPath}/do/admin_event_edit" method="post">
                             <button type="submit" class="button" name="eventId"

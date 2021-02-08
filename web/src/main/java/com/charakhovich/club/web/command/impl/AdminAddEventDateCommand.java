@@ -5,6 +5,7 @@ import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.EventDateService;
 import com.charakhovich.club.model.service.impl.EventDateServiceImpl;
 import com.charakhovich.club.web.command.*;
+import com.charakhovich.club.web.util.CookieHandler;
 import com.charakhovich.club.web.validation.DataValidate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -49,22 +50,22 @@ public class AdminAddEventDateCommand implements Command {
                 isCreate = eventDateService.create(eventDate) > 0;
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
+                resp.addCookie(CookieHandler.create(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 return new Router(PagePath.REDIRECT_ERROR_500, Router.Type.REDIRECT);
             }
             if (isCreate) {
-                resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.REDIRECT);
             } else {
                 req.setAttribute(PageAttribute.IS_INVALID_DATA, "true");
                 req.setAttribute(PageAttribute.IS_EXIST_DATE, "true");
-                resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 logger.log(Level.INFO,"The schedule can't be add ,"+localDateTime.toString() + " is busy");
-                return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.FORWARD);
+                StringBuilder page=new StringBuilder(PagePath.REDIRECT_ADMIN_EVENT_EDIT).
+                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_ID).
+                        append(ApplicationParam.SIGN_EQUALS).append(eventId);
+                return new Router(page.toString(), Router.Type.FORWARD);
             }
         } else {
             req.setAttribute(PageAttribute.IS_INVALID_DATA, "true");
-       //    req.setAttribute(PageAttribute.FORWARD_COMMAND, PagePath.REDIRECT_ADMIN_EVENT_EDIT); -->
-            resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
             if (!isValidTime) {
                 req.setAttribute(PageAttribute.IS_INVALID_TIME, "true");
                 logger.log(Level.INFO,"The schedule can't be add ,"+localDateTime.toString() + " is invalid time");
@@ -81,7 +82,10 @@ public class AdminAddEventDateCommand implements Command {
                 req.setAttribute(PageAttribute.IS_INVALID_COUNT_TICKET, "true");
                 logger.log(Level.INFO,"The schedule can't be add , cost "+countTickets + " is invalid count");
             }
-            return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.FORWARD);
+            StringBuilder page=new StringBuilder(PagePath.REDIRECT_ADMIN_EVENT_EDIT).
+                    append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_ID).
+                    append(ApplicationParam.SIGN_EQUALS).append(eventId);
+            return new Router(page.toString(), Router.Type.FORWARD);
         }
     }
 }

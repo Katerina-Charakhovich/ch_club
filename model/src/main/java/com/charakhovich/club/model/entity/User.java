@@ -148,12 +148,9 @@ public class User extends Entity {
         return userId == user.userId &&
                 firstName.equals(user.firstName) &&
                 lastName.equals(user.lastName) &&
-                phone.equals(user.phone) &&
                 login.equals(user.login) &&
-                role == user.role &&
-                state == user.state &&
-                photo.equals(user.photo) &&
-                balance.equals(user.balance);
+                role == user.role ;
+
     }
 
     public int hashCode() {

@@ -41,12 +41,12 @@
         </tr>
         <c:forEach items="${listUsers}" var="user">
             <tr>
-                <td>${user.getLastName()}</td>
-                <td>${user.getFirstName()}</td>
-                <td>${user.getLogin()}</td>
-                <td>${user.getPhone()}</td>
-                <td>${user.getBalance()}</td>
-                <td>${user.getState()}</td>
+                <td><c:out value="${user.getLastName()}"/></td>
+                <td><c:out value="${user.getFirstName()}"/></td>
+                <td><c:out value="${user.getLogin()}"/></td>
+                <td><c:out value="${user.getPhone()}"/></td>
+                <td><c:out value="${user.getBalance()}"/></td>
+                <td><c:out value="${user.getState()}"/></td>
                 <td>
                     <c:choose>
                         <c:when test="${user.getState()=='ACTUAL'||user.getState()=='UNCONFIRMED'}">
@@ -82,10 +82,6 @@
             </tr>
         </c:forEach>
     </table>
-  <!--  <button type="submit" class="button" name="userId"
-            value="${user.getUserId()}">
-        <fmt:message key="button.create"/>
-    </button>-->
     </form>
     </br>
     <div>

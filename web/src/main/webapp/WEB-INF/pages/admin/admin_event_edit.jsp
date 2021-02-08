@@ -15,8 +15,8 @@
 <c:import url="../common/header_admin.jsp"/>
 <main class="main">
     <div class="container">
-        <h1 class="h3 mt-5 mb-1">${eventView.getName()}</h1>
-        <h2 class="lead mt-0 mb-5">${eventView.getShortDescription()}</h2>
+        <h1 class="h3 mt-5 mb-1"><c:out value="${eventView.getName()}" /></h1>
+        <h2 class="lead mt-0 mb-5"><c:out value="${eventView.getShortDescription()}"/></h2>
         <div class="event">
             <div class="container-sm">
                 <div class="row">
@@ -62,6 +62,7 @@
                                 </label>
                                 <input class="form-control" type="text" id="from-eventname"
                                        name="eventName"
+                                       required
                                        onchange="this.setCustomValidity('')"
                                        previousValue="${eventView.getName()}"
                                        value="${eventView.getName()}" disabled>
@@ -78,6 +79,7 @@
                                 </label>
                                 <input class="form-control"
                                        type="text"
+                                       required
                                        id="from-eventshortdesc"
                                        name="eventShortDescription"
                                        previousValue="${eventView.getShortDescription()}"
@@ -134,7 +136,7 @@
                                 <fmt:message key="event.ticket.free.count"/>
                             </th>
                             <th></th>
-                            <th></th>
+                            <!--     <th></th>-->
                         </tr>
                         <c:forEach items="${listEventDates}" var="eventDate">
                             <tr>
@@ -163,7 +165,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td>
+                                <!--<td>
                                     <c:choose>
                                         <c:when test="${eventDate.getFreeTicketCount()>0 }">
                                             <button type="submit" class="button"
@@ -177,7 +179,7 @@
                                                     key="label.no_ickets_available"/>></label>
                                         </c:otherwise>
                                     </c:choose>
-                                </td>
+                                </td> -->
                             </tr>
                         </c:forEach>
                     </table>
@@ -185,8 +187,9 @@
                     </hr>
                     </br>
                     <button type="submit" class="button" data-toggle="modal" data-target="#modalEventDate"
-                            id="eventAddDate"
-                            onclick="javascript:document.getElementById('eventAddDateId').setAttribute('value', '${eventView.getEventId()}')">
+                            id="eventAddDate">
+                            <!--onclick="javascript:document.getElementById('eventAddDateId').setAttribute('value', '${eventView.getEventId()}')">-->
+
                         <fmt:message key="button.newEventDate"/>
                     </button>
                 </c:if>
@@ -234,6 +237,7 @@
                     </div>
                     </br>
                     <button type="submit" class="button" data-toggle="modal" data-target="#modalQuestDate"
+                            id="questAddDate"
                             onclick="javascript:document.getElementById('questId').setAttribute('value', '${eventView.getEventId()}')">
                         <fmt:message key="button.newEventDate"/>
                     </button>
@@ -277,7 +281,6 @@
 </div>
 
 
-<!--Modal  -->
 <div role="dialog" tabindex="-1" class="modal fade" id="modalQuestDate">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -292,7 +295,7 @@
                 <form class="p-4" method="POST"
                       action="${pageContext.request.contextPath}/do/admin_add_quest_date">
                     <!--      <input type="hidden" name="command" value="admin_add_quest_date"/> -->
-                    <input type="hidden" id="questId" name="questId"/>
+                    <input type="hidden" id="questId" name="questId" value="${eventView.getEventId()}"/>
 
                     <label><fmt:message key="quest.date"/></label>
                     <br class="required col-xs-10">
@@ -336,18 +339,6 @@
                     </div>
                     </br>
 
-                  <!--  <label><fmt:message key="quest.duration"/></label>
-                    <br class="required col-xs-10">
-                    <input class="input-group"
-                           id="duration" name="duration"
-                           type="number"
-                           required
-                           min="1"
-                           max="2">
-                    <div class="warnMessage" id="incorrectDuration" hidden style="color: #8b0000">
-                        <fmt:message key="modal.eventDate.incorrectDuration"/>
-                    </div>-->
-
                     <label><fmt:message key="label.cost.ticket"/></label>
                     <div class="input-group" style="margin-bottom: 10px">
                         <input type="number"
@@ -376,13 +367,13 @@
                 <input id="isInvalidQuestDate" type="hidden" value="${isInvalidQuestDate}">
                 <input id="isExistQuestDate" type="hidden" value="${isExistQuestDate}">
                 <input id="isInvalidQuestCostTicket" type="hidden" value="${isInvalidQuestCostTicket}">
+                <input id="isInvalidQuestTime" type="hidden" value="${isInvalidQuestTime}">
             </div>
         </div>
     </div>
 </div>
 
 
-<!-- Modal add event date-->
 <div role="dialog" tabindex="-1" class="modal fade" id="modalEventDate">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -396,7 +387,6 @@
             <div class="modal-body">
                 <form class="p-4" method="POST"
                       action="${pageContext.request.contextPath}/do/admin_add_event_date">
-                    <!-- <input type="hidden" name="command" value="admin_add_event_date"/> -->
                     <input type="hidden" id="eventAddDateId" name="eventId"/>
                     <label><fmt:message key="label.date.time"/></label>
                     <br class="required col-xs-10">
@@ -404,10 +394,10 @@
                            type="datetime-local" id="dateTime" name="dateTime"
                            required
                            max="2090-12-31T23:59">
-                    <div class="warnMessage" id="oldDate" hidden style="color: #8b0000">
+                    <div class="warnMessage" id="invalidDate" hidden style="color: #8b0000">
                         <fmt:message key="modal.eventDate.oldDate"/>
                     </div>
-                    <div class="warnMessage" id="incorrectTime" hidden style="color: #8b0000">
+                    <div class="warnMessage" id="invalidTime" hidden style="color: #8b0000">
                         <fmt:message key="modal.eventDate.incorrectTime"/>
                     </div>
                     <div class="warnMessage" id="existDate" hidden style="color: #8b0000">
@@ -423,7 +413,7 @@
                                step="1"
                                required>
                     </div>
-                    <div class="warnMessage" id="incorrectCountTicket" hidden style="color: #8b0000">
+                    <div class="warnMessage" id="invalidCountTicket" hidden style="color: #8b0000">
                         <fmt:message key="modal.eventDate.incorrectCountTicket"/>
                     </div>
                     <label><fmt:message key="label.cost.ticket"/></label>
@@ -436,7 +426,7 @@
                                step="0.01"
                                required>
                     </div>
-                    <div class="warnMessage" id="incorrectCostTicket" hidden style="color: #8b0000">
+                    <div class="warnMessage" id="invalidCostTicket" hidden style="color: #8b0000">
                         <fmt:message key="modal.eventDate.incorrectCostTicket"/>
                     </div>
                     <div style="margin-left: 15%">
@@ -450,8 +440,8 @@
                     </div>
                 </form>
                 <input id="isInvalidData" type="hidden" value="${isInvalidData}">
-                <input id="isInvalidDate" type="hidden" value="${isInvalidDate}">
                 <input id="isInvalidTime" type="hidden" value="${isInvalidTime}">
+                <input id="isInvalidDate" type="hidden" value="${isInvalidDate}">
                 <input id="isExistDate" type="hidden" value="${isExistDate}">
                 <input id="isInvalidCountTicket" type="hidden" value="${isInvalidCountTicket}">
                 <input id="isInvalidCostTicket" type="hidden" value="${isInvalidCostTicket}">
@@ -460,9 +450,10 @@
         </div>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/add_event_date.js"></script>
 <c:import url="../common/footer.jsp"/>
 <script src="${pageContext.request.contextPath}/js/edit_event.js"></script>
+<script src="${pageContext.request.contextPath}/js/add_event_date.js"></script>
+<script src="${pageContext.request.contextPath}/js/add_event_quest.js"></script>
 </body>
 </html>
 

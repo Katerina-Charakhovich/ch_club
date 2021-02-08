@@ -3,6 +3,7 @@ package com.charakhovich.club.web.command.impl;
 import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.impl.UserServiceImpl;
 import com.charakhovich.club.web.command.*;
+import com.charakhovich.club.web.util.CookieHandler;
 import com.charakhovich.club.web.validation.DataValidate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -31,12 +32,12 @@ public class AdminAddBalanceCommand implements Command {
         try {
             if (isAddBalanceAmountValid) {
                 userService.addBalance(userAddBalanceId, BigDecimal.valueOf(amount));
-                resp.addCookie(new Cookie(PageCookieName.IS_USER_ADD_BALANCE, String.valueOf(userAddBalanceId)));
-                resp.addCookie(new Cookie(PageCookieName.IS_AMOUNT_VALID, "true"));
+                resp.addCookie(CookieHandler.create(PageCookieName.IS_USER_ADD_BALANCE, String.valueOf(userAddBalanceId)));
+                resp.addCookie(CookieHandler.create(PageCookieName.IS_AMOUNT_VALID, "true"));
                 logger.log(Level.INFO,"The balance for "+userAddBalanceId+" is added for amount "+amount);
             } else {
-                resp.addCookie(new Cookie(PageCookieName.IS_USER_ADD_BALANCE, String.valueOf(userAddBalanceId)));
-                resp.addCookie(new Cookie(PageCookieName.IS_AMOUNT_VALID, "true"));
+                resp.addCookie(CookieHandler.create(PageCookieName.IS_USER_ADD_BALANCE, String.valueOf(userAddBalanceId)));
+                resp.addCookie(CookieHandler.create(PageCookieName.IS_AMOUNT_VALID, "true"));
                 logger.log(Level.INFO,"The balance for "+userAddBalanceId+" isn't added. Amount "+amount);
             }
         } catch (ServiceException e) {

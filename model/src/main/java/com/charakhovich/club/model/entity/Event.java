@@ -150,11 +150,11 @@ public class Event extends Entity {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = result * prime + eventType.hashCode();
-        result = result * prime + name.hashCode();
-        result = result * prime + description.hashCode();
-        result = result * prime + shortDescription.hashCode();
+        int result = (int) (eventId ^ (eventId >>> 32));
+        result = prime * result + eventType.hashCode();
+        result = prime * result + name.hashCode();
+        result = prime * result + description.hashCode();
+        result = prime * result + shortDescription.hashCode();
 
         return result;
     }

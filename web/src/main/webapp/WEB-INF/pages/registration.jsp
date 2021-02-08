@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
@@ -9,21 +10,9 @@
     <title><fmt:message key="main.title"/></title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <link href="http://bootstrapformhelpers.com/assets/css/bootstrap-formhelpers.min.css" rel="stylesheet"
-          media="screen">
-    <script src="http://bootstrapformhelpers.com/assets/js/bootstrap-formhelpers.min.js"></script>
-    <style>
-        <%@include file="style.css" %>
-    </style>
 </head>
 <body>
 <c:import url="common/header_admin.jsp"/>
-<!-- MAIN -->
 <main class="main">
     <div class="container" id="registration">
         <div class="row register-form">
@@ -46,7 +35,7 @@
                                    pattern="[а-яА-Яa-zA-Z]{2,45}"
                                    onchange="this.setCustomValidity('')"
                                    value="${mapPageParams.get('lastname')}">
-                            <div class="warnMessage">
+                            <div class="warnMessage" style="color: #8b0000">>
                                 <c:if test="${not empty mapPageParams && mapPageParams.get('lastname').equals('error')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -65,7 +54,7 @@
                                    class=" col-sm-4 label-column"
                                    onchange="this.setCustomValidity('')"
                                    value="${mapPageParams.get('firstname')}">
-                            <div class="warnMessage">
+                            <div class="warnMessage" style="color: #8b0000">>
                                 <c:if test="${not empty mapPageParams && mapPageParams.get('firstname').equals('error')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -85,7 +74,7 @@
                                        key="registration.warnMessage"/>')"
                                onchange="this.setCustomValidity('')"
                                value="${mapPageParams.get('phone')}">
-                        <div class="warnMessage">
+                        <div class="warnMessage" style="color: #8b0000">>
                             <c:if test="${not empty mapPageParams && mapPageParams.get('phone').equals('error')}">
                                 <fmt:message key="registration.warnMessage"/>
                             </c:if>
@@ -105,7 +94,7 @@
                                    pattern="^[\\w-\\.]+@([\\w-]+\\.)+[\\w]{2,4}$"
                                    onchange="this.setCustomValidity('')"
                                    value="${mapPageParams.get('email')}">
-                            <div class="warnMessage">
+                            <div class="warnMessage" style="color: #8b0000">>
                                 <c:if test="${not empty mapPageParams && mapPageParams.get('email').equals('error')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -131,7 +120,7 @@
                             <div class="field-description">
                                 <fmt:message key="registration.passwordDescription"/>
                             </div>
-                            <div class="warnMessage">
+                            <div class="warnMessage" style="color: #8b0000">>
                                 <c:if test="${not empty userParameters and empty userParameters.get('password')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -152,7 +141,7 @@
 
                                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,20}$"
                                    value="${userParameters.get('repeatedPassword')}">
-                            <div class="warnMessage">
+                            <div class="warnMessage" style="color: #8b0000">>
                                 <c:if test="${not empty userParameters and empty userParameters.get('repeatedPassword')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>

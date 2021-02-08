@@ -1,27 +1,29 @@
 $(document).ready(function () {
-    if ($("#isInvalidData").val() == "true") {
+    if ($("#isInvalidData").val() === "true") {
         $("#modalEventDate").modal('show');
-    }else {
+        alert("!!!!!!!!!");
+    } else {
         $("#modalEventDate").modal('hide');
-    } ;
+    }
+    ;
 
-    if ($("#isInvalidDate").val() == "true") {
+    if ($("#isInvalidDate").val() === "true") {
         $("#invalidDate").prop('hidden', false);
     }
     ;
-    if ($("#isInvalidTime").val() == "true") {
+    if ($("#isInvalidTime").val() === "true") {
         $("#invalidTime").prop('hidden', false);
     }
     ;
-    if ($("#isExistDate").val() == "true") {
+    if ($("#isExistDate").val() === "true") {
         $("#existDate").prop('hidden', false);
     }
     ;
-    if ($("#isInvalidCountTicket").val() == "true") {
+    if ($("#isInvalidCountTicket").val() === "true") {
         $("#invalidCountTicket").prop('hidden', false);
     }
     ;
-    if ($("#isInvalidCostTicket").val() == "true") {
+    if ($("#isInvalidCostTicket").val() === "true") {
         $("#invalidCostTicket").prop('hidden', false);
     }
     ;
@@ -29,8 +31,11 @@ $(document).ready(function () {
         $("#dateTime").val('');
         $("#countTickets").val(0);
         $("#cosTickets").val('');
+        $("#invalidDate").prop('hidden', true);
+        $("#invalidTime").prop('hidden', true);
+        $("#existDate").prop('hidden', true);
+        $("#invalidCountTicket").prop('hidden', true);
+        $("#invalidCostTicket").prop('hidden', true);
     });
-
 });
-
 

@@ -16,8 +16,7 @@ import static com.charakhovich.club.web.command.PageAttribute.*;
 public class DataValidate {
     static final Logger logger = LogManager.getLogger(DataValidate.class);
     public static final String ERROR_MESSAGE = "error";
-    public static final String XSS_ATTACK = "</?script>";
-    //private static final String PASSWORD_PATTERN = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^(.{8,15})$";
+    public static final String XSS_ATTACK = "<[/]?script[\\s\\S]*?>";;
     private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$";
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w]{2,4}$";
     private static final String FIRSTNAME_PATTERN = "[а-яА-Яa-zA-Z]{2,20}";
@@ -31,6 +30,8 @@ public class DataValidate {
     private static final int MAX_COUNT = 30;
     private static final BigDecimal MIN_ADD_BALANCE_AMOUNT = BigDecimal.valueOf(0.5);
     private static final BigDecimal MAX_ADD_BALANCE_AMOUNT = BigDecimal.valueOf(100.00);
+    private static final double MIN_DURATION_EVENT = 0.5;
+    private static final double MAX_DURATION_EVENT = 3.0;
 
     public static boolean isValidPageParameters(RequestContext requestContext) {
         boolean result = true;
@@ -144,8 +145,9 @@ public class DataValidate {
         params.put(PageParam.PARAM_EVENT_ADD_NAME, params.containsKey(PageParam.PARAM_EVENT_ADD_NAME)
                 ? params.get(PageParam.PARAM_EVENT_ADD_NAME).matches(XSS_ATTACK) ?
                 ERROR_MESSAGE : params.get(PageParam.PARAM_EVENT_ADD_NAME) : ERROR_MESSAGE);
-        params.put(PageParam.PARAM_MAIN_PICTURE_NAME, params.containsKey(PageParam.PARAM_MAIN_PICTURE_NAME)
-                ? params.get(PageParam.PARAM_MAIN_PICTURE_NAME) : ERROR_MESSAGE);
+        params.put(PageParam.PARAM_EVENT_DURATION, params.containsKey(PageParam.PARAM_EVENT_DURATION) ?
+                isValidDurationEvent(Double.parseDouble(params.get(PageParam.PARAM_EVENT_DURATION))) ?
+                        params.get(PageParam.PARAM_EVENT_DURATION):ERROR_MESSAGE:ERROR_MESSAGE);
         return !params.values().contains(ERROR_MESSAGE);
     }
 
@@ -167,7 +169,7 @@ public class DataValidate {
     }
 
     public static boolean isValidMessage(String message) {
-        return !message.matches(XSS_ATTACK);
+        return !message.matches(XSS_ATTACK)&&!message.isBlank();
 
     }
 
@@ -193,5 +195,8 @@ public class DataValidate {
                 params.get(PageParam.REPEATED_NEW_PASSWORD) : ERROR_MESSAGE : ERROR_MESSAGE);
         return !params.values().contains(ERROR_MESSAGE);
     }
+    public static boolean isValidDurationEvent(double duration){
+        return duration>=MIN_DURATION_EVENT&& duration<=MAX_DURATION_EVENT;
 
+    }
 }

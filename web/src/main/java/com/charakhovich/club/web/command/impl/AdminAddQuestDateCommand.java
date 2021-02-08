@@ -4,11 +4,11 @@ import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.EventDateService;
 import com.charakhovich.club.model.service.impl.EventDateServiceImpl;
 import com.charakhovich.club.web.command.*;
+import com.charakhovich.club.web.util.CookieHandler;
 import com.charakhovich.club.web.validation.DataValidate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -51,6 +51,7 @@ public class AdminAddQuestDateCommand implements Command {
         double costTicketDouble = Double.parseDouble(req.getParameter(PageParam.PARAM_QUEST_COST_TICKET));
         BigDecimal costTicket = BigDecimal.valueOf(costTicketDouble);
         boolean isValidCostTicket = DataValidate.isValidCostTicket(costTicket);
+
         if (isValidDate && isValidCostTicket && isValidStartTime && isValidEndTime) {
             boolean isCreate = false;
             try {
@@ -61,21 +62,21 @@ public class AdminAddQuestDateCommand implements Command {
                 return new Router(PagePath.REDIRECT_ERROR_500, Router.Type.REDIRECT);
             }
             if (isCreate) {
-                resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
+                resp.addCookie(CookieHandler.create(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.REDIRECT);
             } else {
-                req.setAttribute(PageAttribute.IS_INVALID_DATA, "true");
+                req.setAttribute(PageAttribute.IS_INVALID_QUEST_DATA, "true");
                 req.setAttribute(PageAttribute.IS_EXIST_QUEST_DATE, "true");
-                resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 logger.log(Level.INFO, "The schedule can't be add ," + localDate.toString() + " is busy");
-                return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.FORWARD);
+                StringBuilder stringBuilder=new StringBuilder(PagePath.REDIRECT_ADMIN_EVENT_EDIT).
+                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_ID).
+                        append(ApplicationParam.SIGN_EQUALS).append(eventId);
+                return new Router(stringBuilder.toString(), Router.Type.FORWARD);
             }
         } else {
             req.setAttribute(PageAttribute.IS_INVALID_QUEST_DATA, "true");
-            //    req.setAttribute(PageAttribute.FORWARD_COMMAND, PagePath.REDIRECT_ADMIN_EVENT_EDIT); -->
-            resp.addCookie(new Cookie(PageCookieName.EVENT_ID, String.valueOf(eventId)));
             if (!(isValidStartTime && isValidEndTime)) {
-                req.setAttribute(PageAttribute.IS_INVALID_TIME, "true");
+                req.setAttribute(PageAttribute.IS_INVALID_QUEST_TIME, "true");
                 logger.log(Level.INFO, "The schedule can't be add  is invalid time");
             }
             if (!isValidDate) {
@@ -86,39 +87,10 @@ public class AdminAddQuestDateCommand implements Command {
                 req.setAttribute(PageAttribute.IS_INVALID_QUEST_COST_TICKET, "true");
                 logger.log(Level.INFO, "The schedule can't be add , cost " + costTicket + " is invalid cost");
             }
-            return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.FORWARD);
+            StringBuilder stringBuilder=new StringBuilder(PagePath.REDIRECT_ADMIN_EVENT_EDIT).
+                    append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_ID).
+                    append(ApplicationParam.SIGN_EQUALS).append(eventId);
+            return new Router(stringBuilder.toString(), Router.Type.FORWARD);
         }
     }
 }
-    /*
-    Map<String, String[]> parameterMap = new HashMap<>(req.getParameterMap());
-     if (!isValidEventDateNew(parameterMap)) {
-         req.setAttribute(PageAttribute.MAP_PAGE_PARAMETERS, parameterMap);
-         return new Router(PagePath.ADMIN_EVENT_DATES, Router.Type.FORWARD);
-     }
-    long eventId = Long.parseLong(req.getParameter(PageParam.PARAM_QUEST_ID));
-    String date = req.getParameter(PageParam.PARAM_QUEST_DATE);
-    String startTime = req.getParameter(PageParam.PARAM_QUEST_START_TIME);
-    String endTime = req.getParameter(PageParam.PARAM_QUEST_END_TIME);
-    int duration = Integer.parseInt(req.getParameter(PageParam.PARAM_QUEST_DURATION));
-    LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.getDefault()));
-    LocalTime localStartTime = LocalTime.parse(startTime, DateTimeFormatter.ofPattern(TIME_FORMATTER, Locale.getDefault()));
-    LocalTime localEndTime = LocalTime.parse(endTime, DateTimeFormatter.ofPattern(TIME_FORMATTER, Locale.getDefault()));
-    boolean isCreate = eventDateService.createQuestSchedule(eventId, localDate, localStartTime, localEndTime, duration) > 0 ? true : false;
-    Router router;
-        if(isCreate){
-                req.setAttribute(PageParam.PARAM_EVENT_ID,eventId);
-                StringBuilder page=new StringBuilder().append(CONTROLLER_REGEX).
-                append(CommandType.ADMIN_EVENT_EDIT.toString()).append(ONE_PARAMETER_SPLIT).
-                append(PageAttribute.EVENT_VIEW_ID).append(SIGN_EQUALS).append(eventId).
-                append(MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).
-                append(SIGN_EQUALS).append(ApplicationParam.DEFAULT_PAGINATION_NUMBER);
-                router=new Router(page.toString(),Router.Type.REDIRECT);
-                }else{
-                StringBuilder page=new StringBuilder().append(CONTROLLER_REGEX).
-                append(CommandType.ADMIN_EVENT_EDIT.toString());
-                router=new Router(page.toString(),Router.Type.REDIRECT);
-                }
-
-                return router;
-                } */

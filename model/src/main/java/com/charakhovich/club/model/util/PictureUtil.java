@@ -65,6 +65,7 @@ public class PictureUtil {
             }
             ResampleOp reOp = new ResampleOp(width, height);
             BufferedImage newImg = reOp.filter(imageResize, null);
+
             ByteArrayOutputStream imgByte = new ByteArrayOutputStream();
 
             ImageIO.write(newImg, IMAGE_TYPE, imgByte);
