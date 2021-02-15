@@ -55,6 +55,7 @@ public class PictureUtil {
     public static InputStream resizeImage(InputStream image, int widthImage) {
         InputStream newImage = null;
         try {
+
             BufferedImage imageResize = ImageIO.read(image);
             int width = imageResize.getWidth();
             int height = imageResize.getHeight();

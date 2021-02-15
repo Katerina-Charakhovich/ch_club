@@ -42,16 +42,17 @@ public class AdminEventsPageCommand implements Command {
             }
         }
         try {
-            int currentPaginationPage = (numberPageOptional.isEmpty()) ?
+            int numberPage = (numberPageOptional.isEmpty()) ?
                     Integer.parseInt(Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                             orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER))) :
                     Integer.parseInt(numberPageOptional.get());
-
-            List<Event> listEvent = eventService.findAll(new Page(currentPaginationPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
             int countOfEvents = eventService.count();
             int countPages = (int) Math.ceil(countOfEvents * 1.0 / Page.RECORD_NUMBER);
+            numberPage=numberPage>countPages &&countPages!=0?countPages:numberPage<1?ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
+            List<Event> listEvent = eventService.findAll(new Page(numberPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
+
             req.setAttribute(PageAttribute.LIST_EVENT, listEvent);
-            req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, currentPaginationPage);
+            req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
             req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
             HttpSession session = req.getSession();
             session.setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.ADMIN_EVENTS.toString());

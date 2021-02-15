@@ -189,6 +189,30 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         return result;
     }
 
+    @Override
+    public int countByRoleByLastname(User.Role role, String subLastname) throws DaoException {
+        int result = 0;
+        Connection connection = this.connection;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SqlQuery.SELECT_COUNT_USERS_BY_ROLE_BY_LASTNAME);
+            statement.setString(1, role.toString());
+            statement.setString(4, User.State.ACTUAL.toString());
+            statement.setString(3, User.State.BLOCKED.toString());
+            statement.setString(2, "%"+subLastname+"%");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getInt(SqlQuery.COUNT_USERS);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            statementClose(statement);
+
+        }
+        return result;
+    }
+
     public int create(User user, String hashPassword, String verificationCode) throws DaoException {
         Connection connection = this.connection;
         PreparedStatement statement = null;
@@ -312,6 +336,47 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
         }
         return isUpdate;
+    }
+
+    @Override
+    public List<User>  findByRoleByLastname(User.Role role,String lastname, Page page) throws DaoException {
+        List<User> listUser = new ArrayList<>();
+        Connection connection = this.connection;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SqlQuery.SELECT_USERS_BY_ROLE_BY_LASTNAME_LIMIT_PAGE);
+            statement.setString(1, role.toString());
+            statement.setString(2, "%"+lastname+"%");
+            statement.setString(3, User.State.ACTUAL.toString());
+            statement.setString(4, User.State.BLOCKED.toString());
+            statement.setInt(5, page.getFirst());
+            statement.setInt(6, page.getMax());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next() && !resultSet.wasNull()) {
+                User user = new User();
+                user.setUserId(resultSet.getLong(TableColumnName.USER_DAO_ID));
+                user.setLogin(resultSet.getString(TableColumnName.USER_DAO_LOGIN));
+                user.setFirstName(resultSet.getString(TableColumnName.USER_DAO_FIRSTNAME));
+                user.setLastName(resultSet.getString(TableColumnName.USER_DAO_LASTNAME));
+                user.setRole(User.Role.valueOf(resultSet.getString(TableColumnName.USER_DAO_ROLE)));
+                user.setState(User.State.valueOf(resultSet.getString(TableColumnName.USER_DAO_STATE)));
+                user.setPhone(resultSet.getString(TableColumnName.USER_DAO_PHONE));
+                user.setBalance(resultSet.getBigDecimal(TableColumnName.USER_DAO_BALANCE));
+                if (resultSet.getBinaryStream(TableColumnName.USER_DAO_PHOTO) != null) {
+                    InputStream inputStream = resultSet.getBinaryStream(TableColumnName.USER_DAO_PHOTO);
+                    String photo = PictureUtil.imageToBase64(inputStream);
+                    user.setPhoto(photo);
+                }
+                listUser.add(user);
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            statementClose(statement);
+
+        }
+        return listUser;
     }
 
     @Override

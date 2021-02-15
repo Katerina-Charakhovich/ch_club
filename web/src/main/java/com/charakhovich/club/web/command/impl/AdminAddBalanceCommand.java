@@ -1,9 +1,11 @@
 package com.charakhovich.club.web.command.impl;
 
+import com.charakhovich.club.model.entity.User;
 import com.charakhovich.club.model.exeption.ServiceException;
 import com.charakhovich.club.model.service.impl.UserServiceImpl;
 import com.charakhovich.club.web.command.*;
 import com.charakhovich.club.web.util.CookieHandler;
+import com.charakhovich.club.web.util.MailSender;
 import com.charakhovich.club.web.validation.DataValidate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * The type add balance command.
@@ -32,6 +35,9 @@ public class AdminAddBalanceCommand implements Command {
         try {
             if (isAddBalanceAmountValid) {
                 userService.addBalance(userAddBalanceId, BigDecimal.valueOf(amount));
+                Optional<User> user=userService.findUserById(userAddBalanceId);
+                boolean isSend = MailSender.getINSTANCE().sendMessage(user.get().getLogin(), "Add balance",
+                        "Your account is credited to "+amount);
                 resp.addCookie(CookieHandler.create(PageCookieName.IS_USER_ADD_BALANCE, String.valueOf(userAddBalanceId)));
                 resp.addCookie(CookieHandler.create(PageCookieName.IS_AMOUNT_VALID, "true"));
                 logger.log(Level.INFO,"The balance for "+userAddBalanceId+" is added for amount "+amount);

@@ -5,14 +5,8 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title><fmt:message key="main.title"/></title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-</head>
 <body>
-<c:import url="common/header_admin.jsp"/>
+<c:import url="common/header.jsp"/>
 <main class="main">
     <div class="container text-center">
         <h1 class="h3 mt-5 mb-1"><c:out value="${eventView.getName()}"/></h1>
@@ -119,35 +113,35 @@
             </c:if>
         </div>
         </c:if>
-    </div>
-    <c:forEach items="${listMessages}" var="message">
-        <div class="container_mes">
-            <c:choose>
-                <c:when test="${not empty message.getUser().getPhoto()}">
-                    <div>
-                        <img width="220px" src="data:image/jpeg;base64,${message.getUser().getPhoto()}"
-                             alt="Avatar"
-                             style="width:90px">
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="photoBorder">
-                        <img src="${pageContext.request.contextPath}/images/1.png" alt="Avatar"
-                             style="width:90px">
-                    </div>
-                </c:otherwise>
-            </c:choose>
-            <p><span><c:out value="${message.getUser().fullName()}"/></span></p>
-            <p><c:out value="${message.getText()}"/></p>
+
+        <c:forEach items="${listMessages}" var="message">
+            <div class="container_mes">
+                <c:choose>
+                    <c:when test="${not empty message.getUser().getPhoto()}">
+                        <div>
+                            <img width="220px" src="data:image/jpeg;base64,${message.getUser().getPhoto()}"
+                                 alt="Avatar"
+                                 style="width:90px">
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="photoBorder">
+                            <img src="${pageContext.request.contextPath}/images/1.png" alt="Avatar"
+                                 style="width:90px">
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+                <p><span><c:out value="${message.getUser().fullName()}"/></span></p>
+                <p><c:out value="${message.getText()}"/></p>
+            </div>
+        </c:forEach>
+        <div>
+            <form action="${pageContext.request.contextPath}/do" method="get">
+                <input type="hidden" name="command" value="edit_view">
+                <ctg:pagination/>
+            </form>
         </div>
-    </c:forEach>
-    <div>
-        <form action="${pageContext.request.contextPath}/do" method="get">
-            <input type="hidden" name="command" value="edit_view">
-            <ctg:pagination/>
-        </form>
-    </div>
-    </br>
+        </br>
     </div>
 </main>
 <c:import url="common/footer.jsp"/>

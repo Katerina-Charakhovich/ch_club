@@ -12,7 +12,7 @@
     <title><fmt:message key="main.title"/></title>
 </head>
 <style>
-    <%@include file="../style.css" %>
+    <%@include file="../../../css/style.css" %>
 </style>
 <body>
 

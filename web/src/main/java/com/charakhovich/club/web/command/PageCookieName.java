@@ -22,6 +22,7 @@ public class PageCookieName {
     public static final String IS_TICKET_BOOKED="isTicketBooked";
     public static final String IS_USER_ADD_BALANCE="isUserAddBalance";
     public static final String IS_AMOUNT_VALID="isAmountValid";
+    public static final String IS_NOT_ENOUGH_MONEY= "isNotEnoughMoney";
     private PageCookieName() {
     }
 }

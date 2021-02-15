@@ -57,6 +57,10 @@ public class EventTicketSalePageCommand implements Command {
                         req.setAttribute(PageAttribute.IS_TICKET_SALE, cookie.getValue());
                         resp.addCookie(CookieHandler.erase(cookie));
                     }
+                    if (cookie.getName().equals(PageCookieName.IS_NOT_ENOUGH_MONEY)) {
+                        req.setAttribute(PageAttribute.IS_NOT_ENOUGH_MONEY, cookie.getValue());
+                        resp.addCookie(CookieHandler.erase(cookie));
+                    }
                 }
             }
             StringBuilder currentCommandString;
@@ -68,6 +72,9 @@ public class EventTicketSalePageCommand implements Command {
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                         orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER));
                 int numberPage = Integer.parseInt(str);
+
+                numberPage=numberPage>countPages&&countPages!=0?countPages:numberPage<1?
+                        ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
                 List<EventDate> listEventDates = eventDateService.findEventAvailableDates(eventId,
                         new Page(numberPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
                 req.setAttribute(PageAttribute.EVENT_VIEW, event.get());
@@ -82,7 +89,7 @@ public class EventTicketSalePageCommand implements Command {
                         append(ApplicationParam.SIGN_EQUALS).append(numberPage).
                         append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_COUNT_PAGES).
                         append(ApplicationParam.SIGN_EQUALS).append(countPages);
-                req.setAttribute(PageAttribute.CURRENT_COMMAND,currentCommandString.toString());
+                req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND,currentCommandString.toString());
             }
             if (event.get().getEventType() == Event.Type.QUEST) {
                 int countDates = eventDateService.countDates(eventId);
@@ -90,6 +97,8 @@ public class EventTicketSalePageCommand implements Command {
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                         orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER));
                 int numberPage = Integer.parseInt(str);
+                numberPage=numberPage>countPages&&countPages!=0?countPages:numberPage<1?
+                        ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
                 HashMap<String, List<EventDate>> dates = new HashMap<>();
                 List<LocalDate> listLocalDates;
                 listLocalDates = eventDateService.findAvailableEventDatesQuest(eventId,
@@ -115,7 +124,7 @@ public class EventTicketSalePageCommand implements Command {
                         append(ApplicationParam.SIGN_EQUALS).append(numberPage).
                         append(ApplicationParam.MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_COUNT_PAGES).
                         append(ApplicationParam.SIGN_EQUALS).append(countPages);
-                req.setAttribute(PageAttribute.CURRENT_COMMAND,currentCommandString.toString());
+                req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND,currentCommandString.toString());
             }
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e);

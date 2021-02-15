@@ -45,7 +45,7 @@ public class ViewEventsCommand implements Command {
         }
         RequestContext requestContext = new RequestContext(req);
         HashMap<String, String> commandParams = requestContext.getReqParams();
-        int currentPaginationPage = numberPageOptional.isEmpty() ?
+        int numberPage = numberPageOptional.isEmpty() ?
                 commandParams.containsKey(PageAttribute.PAGINATION_NUMBER_PAGE) ?
                         Integer.parseInt(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)) :
                         ApplicationParam.DEFAULT_PAGINATION_NUMBER :
@@ -58,33 +58,43 @@ public class ViewEventsCommand implements Command {
         List<Event> listEvent = null;
         StringBuilder currentCommandString = new StringBuilder(CommandType.EVENTS.toString());
         int countOfEvents = 0;
+        int countPages=0;
         String page = PagePath.EVENTS;
         try {
             switch (typeEvent) {
                 case THEATRE:
-                    listEvent = eventService.findAll(Event.Type.THEATRE,
-                            new Page(currentPaginationPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
-                    currentCommandString.append(ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_TYPE).append(SIGN_EQUALS).append(Event.Type.THEATRE.toString());
                     countOfEvents = eventService.count(typeEvent);
+                    countPages = (int) Math.ceil(countOfEvents * 1.0 / Page.RECORD_NUMBER);
+                    numberPage=numberPage>countPages&&countPages!=0?countPages:numberPage<1?ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
+                    listEvent = eventService.findAll(Event.Type.THEATRE,
+                            new Page(numberPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
+                    currentCommandString.append(ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_TYPE).append(SIGN_EQUALS).append(Event.Type.THEATRE.toString());
+
                     break;
                 case QUEST:
-                    listEvent = eventService.findAll(Event.Type.QUEST, new Page(currentPaginationPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
-                    currentCommandString.append(ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_TYPE).append(SIGN_EQUALS).append(Event.Type.QUEST.toString());
                     countOfEvents = eventService.count(typeEvent);
+                    countPages = (int) Math.ceil(countOfEvents * 1.0 / Page.RECORD_NUMBER);
+                    numberPage=numberPage>countPages?countPages:numberPage<1?ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
+                    listEvent = eventService.findAll(Event.Type.QUEST, new Page(numberPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
+                    currentCommandString.append(ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_TYPE).append(SIGN_EQUALS).append(Event.Type.QUEST.toString());
+
                     break;
                 default:
-                    listEvent = eventService.findAll(new Page(currentPaginationPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
                     countOfEvents = eventService.count();
+                    countPages = (int) Math.ceil(countOfEvents * 1.0 / Page.RECORD_NUMBER);
+                    numberPage=numberPage>countPages?countPages:numberPage<1?ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
+                    listEvent = eventService.findAll(new Page(numberPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
+
 
             }
         } catch (ServiceException e) {
             e.printStackTrace();
             return new Router(PagePath.REDIRECT_ERROR_500, Router.Type.REDIRECT);
         }
-        int countPages = (int) Math.ceil(countOfEvents * 1.0 / Page.RECORD_NUMBER);
         req.setAttribute(PageAttribute.LIST_EVENT, listEvent);
+        req.setAttribute(PageAttribute.EVENT_TYPE, typeEvent);
         req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND, currentCommandString.toString());
-        req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, currentPaginationPage);
+        req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
         req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
         return new Router(page, Router.Type.FORWARD);
     }

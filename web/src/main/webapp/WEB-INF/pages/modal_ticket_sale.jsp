@@ -6,7 +6,7 @@
 <html>
 <head>
     <style>
-        <%@include file="style.css" %>
+        <%@include file="../../css/style.css" %>
     </style>
 </head>
 <body>
@@ -118,4 +118,22 @@
         </div>
     </div>
 </div>
+<div role="dialog" type="hidden" tabindex="-1" class="modal fade" id="modalNotEnoughMoney">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-primary">
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #8b0000">
+                    <fmt:message key="text.notEnoughMoney"/>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>

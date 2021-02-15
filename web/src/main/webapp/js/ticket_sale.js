@@ -14,7 +14,7 @@ $(document).ready(function () {
     }
 
     if ($("#isTicketSale").val() === 'false') {
-        alert("isTicketSale");
+        alert("isFalseTicketSale");
         $("#modalUnSuccessSaleTicket").modal('show');
     } else {
         $("#modalUnSuccessSaleTicket").modal('hide');

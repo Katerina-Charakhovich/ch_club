@@ -44,7 +44,7 @@ public class EventViewPageCommand implements Command {
                     eventIdOptional = Optional.of(Long.parseLong(cookie.getValue()));
                     resp.addCookie(CookieHandler.erase(cookie));
                 }
-                if (cookie.getName().equals(PageCookieName.PAGINATION_NUMBER_PAGE)) {
+               if (cookie.getName().equals(PageCookieName.PAGINATION_NUMBER_PAGE)) {
                     numberPageOptional = Optional.of(cookie.getValue());
                     resp.addCookie(CookieHandler.erase(cookie));
                 }
@@ -63,6 +63,7 @@ public class EventViewPageCommand implements Command {
             Optional<Event> event = eventService.findEntityById(eventId);
             int countOfMessages = messageEventService.countOfMessages(eventId);
             int countPages = (int) Math.ceil(countOfMessages * 1.0 / Page.RECORD_NUMBER);
+            numberPage=numberPage>countPages&&countOfMessages!=0?countOfMessages:numberPage;
             List<MessageEvent> listMessageEvent = messageEventService.findMessagesEvent(eventId,
                     new Page(numberPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
             StringBuilder currentCommandString = new StringBuilder(CommandType.EVENT_VIEW.toString()).

@@ -13,13 +13,20 @@
     <meta name="keywords" content="">
 </head>
 <body>
-<c:import url="common/header_admin.jsp"/>
+<c:import url="common/header.jsp"/>
 <main class="main">
     <div class="container">
-        <h1> Hello? this page Events</h1>
-
-            <div class="card-deck mb-3 text-center">
-                <c:forEach items="${listEvent}" var="event">
+        <input type="hidden" name="type" value="${eventType}">
+        <hr/>
+        <c:if test="${eventType=='THEATRE'}">
+            <p><fmt:message key="events.theatreDescription"/></p>
+        </c:if>
+        <c:if test="${eventType=='QUEST'}">
+            <p><fmt:message key="events.questDescription"/></p>
+        </c:if>
+        <hr/>
+        <div class="card-deck mb-3 text-center">
+            <c:forEach items="${listEvent}" var="event">
                 <div class="col col-md-3 col-lg-4">
                     <div class="card mb-4 box-shadow">
                         <div class="card-header">
@@ -34,7 +41,7 @@
                             <c:otherwise>
                                 <div class="photoBorder">
                                     <img width=
-                                         src="${pageContext.request.contextPath}/images/1.png"/>
+                                                 src="${pageContext.request.contextPath}/images/1.png"/>
                                 </div>
                             </c:otherwise>
                         </c:choose>
@@ -51,8 +58,8 @@
                         </div>
                     </div>
                 </div>
-                </c:forEach>
-            </div>
+            </c:forEach>
+        </div>
         </br>
         <div>
             <form action="${pageContext.request.contextPath}/do" method="get">

@@ -94,7 +94,15 @@ public interface UserDao {
      * @throws DaoException the dao exception
      */
     int countByRole(User.Role role) throws DaoException;
-
+    /**
+     * Returns count of users by role
+     *
+     * @param role the user role
+     * @param subLastname the substring of lastname
+     * @return the int
+     * @throws DaoException the dao exception
+     */
+    int countByRoleByLastname(User.Role role,String subLastname) throws DaoException;
     /**
      * Creates new user in state
      *
@@ -154,4 +162,18 @@ public interface UserDao {
      * @throws DaoException the dao exception
      */
     boolean minusBalance(long userId, BigDecimal amount) throws DaoException;
+
+    /**
+     * Finds list user by lastname limited by page.
+     * Returns user, but if user isn't found returns null
+     *
+     * @param role     the role
+     * @param lastname the lastname
+     * @param page     the  page
+     * @return the list
+     * @throws DaoException the dao exception
+     */
+    List<User> findByRoleByLastname(User.Role role, String lastname, Page page) throws DaoException;
+
+
 }

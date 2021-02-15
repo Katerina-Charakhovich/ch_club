@@ -5,14 +5,8 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title><fmt:message key="main.title"/></title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-</head>
 <body>
-<c:import url="common/header_admin.jsp"/>
+<c:import url="common/header.jsp"/>
 <main class="main">
     <div class="container">
         <div>

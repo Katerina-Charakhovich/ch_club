@@ -30,9 +30,9 @@ public class MainPageCommand implements Command {
         String page;
         try {
             List<Event> listTheatre = eventService.findAll(Event.Type.THEATRE,
-                    new Page(ApplicationParam.DEFAULT_PAGINATION_NUMBER, 3));
+                    new Page(ApplicationParam.DEFAULT_PAGINATION_NUMBER, ApplicationParam.DEFAULT_MAIN_PAGE_COUNT_EVENT));
             List<Event> listQuest = eventService.findAll(Event.Type.QUEST,
-                    new Page(ApplicationParam.DEFAULT_PAGINATION_NUMBER, 3));
+                    new Page(ApplicationParam.DEFAULT_PAGINATION_NUMBER, ApplicationParam.DEFAULT_MAIN_PAGE_COUNT_EVENT));
             req.setAttribute(PageAttribute.LIST_THEATRE, listTheatre);
             req.setAttribute(PageAttribute.LIST_QUEST, listQuest);
             req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.MAIN_PAGE_VIEW.toString());

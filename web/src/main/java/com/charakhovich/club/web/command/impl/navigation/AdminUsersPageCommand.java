@@ -15,6 +15,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,19 +47,44 @@ public class AdminUsersPageCommand implements Command {
                 }
             }
         }
-        int currentPaginationPage = Integer.parseInt(Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE))
+        int numberPage = Integer.parseInt(Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE))
                 .orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER)));
-
+        RequestContext requestContext = new RequestContext(req);
+        HashMap<String, String> commandParams = requestContext.getReqParams();
+        String subLastName = req.getParameter(PageParam.PARAM_SUBSTRING_LASTNAME);
         try {
-            List<User> listUser = userService.findByRole(User.Role.USER,
-                    new Page(currentPaginationPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
-            int countOfUser = userService.countByRole(User.Role.USER);
-            int countPages = (int) Math.ceil(countOfUser * 1.0 / Page.RECORD_NUMBER);
+            int countOfUser;
+            int countPages;
+            List<User> listUser;
+            StringBuilder currentCommand;
+            if (subLastName==null) {
+                countOfUser = userService.countByRole(User.Role.USER);
+                countPages = (int) Math.ceil(countOfUser * 1.0 / Page.RECORD_NUMBER);
+                numberPage = numberPage > countPages ? countPages : numberPage < 1 ? ApplicationParam.DEFAULT_PAGINATION_NUMBER : numberPage;
+                listUser = userService.findByRole(User.Role.USER,
+                        new Page(numberPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
+                currentCommand = new StringBuilder(CommandType.ADMIN_USERS.toString());
+            } else {
+                countOfUser = userService.countByRoleByLastname(User.Role.USER, subLastName);
+                countPages = (int) Math.ceil(countOfUser * 1.0 / Page.RECORD_NUMBER);
+                numberPage=numberPage>countPages&&countPages!=0?countPages:numberPage<1?
+                        ApplicationParam.DEFAULT_PAGINATION_NUMBER:numberPage;
+                numberPage = numberPage > countPages && countPages!=0 ? countPages : numberPage < 1 ?
+                        ApplicationParam.DEFAULT_PAGINATION_NUMBER : numberPage;
+                    listUser = userService.findByRoleByLastname(User.Role.USER, subLastName,
+                        new Page(numberPage, ApplicationParam.DEFAULT_COUNT_EVENT_FOR_VIEW));
+              /* currentCommand = new StringBuilder(CommandType.ADMIN_USERS.toString());*/
+                 currentCommand = new StringBuilder(CommandType.ADMIN_USERS.toString()).
+                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_SUBSTRING_LASTNAME).
+                        append(ApplicationParam.SIGN_EQUALS).append(subLastName);
+            }
+            req.setAttribute(PageParam.PARAM_SUBSTRING_LASTNAME, subLastName);
             req.setAttribute(PageAttribute.LIST_USERS, listUser);
-            req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, currentPaginationPage);
+            req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
             req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
             HttpSession session = req.getSession();
-            session.setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.ADMIN_USERS.toString());
+
+            session.setAttribute(PageAttribute.CURRENT_COMMAND, currentCommand.toString());
             logger.log(Level.INFO, "The admin went to the page AdminUsers");
             return new Router(PagePath.ADMIN_USERS, Router.Type.FORWARD);
         } catch (ServiceException e) {

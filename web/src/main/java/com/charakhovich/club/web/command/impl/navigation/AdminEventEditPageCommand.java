@@ -43,12 +43,16 @@ public class AdminEventEditPageCommand implements Command {
                     req.setAttribute(PageAttribute.EVENT_VIEW_ID, cookie.getValue());
                     eventId = Long.parseLong(cookie.getValue());
                     resp.addCookie(CookieHandler.erase(cookie));
-                    break;
+
+                }
+                if (PageCookieName.IS_UPDATE_EVENT.equals(cookie.getName())) {
+                    req.setAttribute(PageAttribute.IS_UPDATE_EVENT, cookie.getValue());
+                    resp.addCookie(CookieHandler.erase(cookie));
                 }
             }
         }
         try {
-            eventId = (eventId<0) ? Long.parseLong(req.getParameter(PageParam.PARAM_EVENT_ID)) : eventId;
+            eventId = (eventId < 0) ? Long.parseLong(req.getParameter(PageParam.PARAM_EVENT_ID)) : eventId;
             Optional<Event> event = eventService.findEntityById(eventId);
             if (event.get().getEventType() == Event.Type.THEATRE) {
                 int countDates = eventDateService.count(eventId);
@@ -56,6 +60,7 @@ public class AdminEventEditPageCommand implements Command {
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                         orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER));
                 int numberPage = Integer.parseInt(str);
+                numberPage = numberPage > countPages && countPages != 0 ? countPages : numberPage < 1 ? ApplicationParam.DEFAULT_PAGINATION_NUMBER : numberPage;
                 List<EventDate> listEventDates = eventDateService.findEventDates(eventId,
                         new Page(numberPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
                 req.setAttribute(PageAttribute.EVENT_VIEW, event.get());
@@ -73,6 +78,7 @@ public class AdminEventEditPageCommand implements Command {
                 String str = Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE)).
                         orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER));
                 int numberPage = Integer.parseInt(str);
+                numberPage = numberPage > countPages && countPages != 0 ? countPages : numberPage < 1 ? ApplicationParam.DEFAULT_PAGINATION_NUMBER : numberPage;
                 HashMap<String, List<EventDate>> dates = new HashMap<>();
                 List<LocalDate> listLocalDates;
                 listLocalDates = eventDateService.findEventDatesQuest(eventId,
@@ -87,8 +93,10 @@ public class AdminEventEditPageCommand implements Command {
                 req.setAttribute(PageAttribute.QUEST_DATES, dates);
                 req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
                 req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
+
                 StringBuilder stringBuilder = new StringBuilder(CommandType.ADMIN_EVENT_EDIT.toString()).
-                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_ID).append(ApplicationParam.SIGN_EQUALS).append(eventId);
+                        append(ApplicationParam.ONE_PARAMETER_SPLIT).append(PageParam.PARAM_EVENT_ID).
+                        append(ApplicationParam.SIGN_EQUALS).append(eventId);
                 req.setAttribute(PageAttribute.EVENT_VIEW_ADDITIONAL_PICTURES, event.get().getListAdditionalPicture());
                 req.getSession().setAttribute(PageAttribute.CURRENT_COMMAND, stringBuilder.toString());
             }

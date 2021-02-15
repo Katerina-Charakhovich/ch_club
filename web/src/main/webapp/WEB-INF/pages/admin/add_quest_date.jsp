@@ -6,7 +6,7 @@
 <html>
 <head>
     <style>
-        <%@include file="../style.css" %>
+        <%@include file="../../../css/style.css" %>
     </style>
 </head>
 <body>
@@ -24,7 +24,7 @@
                 <form class="p-4" method="POST"
                       action="${pageContext.request.contextPath}/do">
                     <input type="hidden" name="command" value="admin_add_quest_date"/>
-                    <input type="hidden" id="questId" name="questId"/>
+                    <input type="hidden" id="questId" name="questId" value="value="${eventView.getEventId()}"/>
                     <div class="input-group" style="margin-bottom: 10px">
                         <div class="input-group-prepend">
                             <span class="input-group-text">

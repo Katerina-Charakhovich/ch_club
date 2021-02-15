@@ -6,7 +6,7 @@
 <html>
 <head>
     <style>
-        <%@include file="style.css" %>
+        <%@include file="../../css/style.css" %>
     </style>
 </head>
 <body>
@@ -47,6 +47,5 @@
 </body>
 <script src="${pageContext.request.contextPath}/themes/fas/theme.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/themes/explorer-fas/theme.js" type="text/javascript"></script>
-<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/js/add_photo.js"></script>
 </html>

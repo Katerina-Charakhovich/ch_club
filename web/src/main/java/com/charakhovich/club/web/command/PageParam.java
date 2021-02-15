@@ -13,6 +13,7 @@ public class PageParam {
     public static final String PARAM_MESSAGE_ID = "messageId";
     public static final String PARAM_EVENT_DURATION="duration";
     public static final String PARAM_QUEST_COST_TICKET ="costQuestTicket";
+    public static final String PARAM_SUBSTRING_LASTNAME ="subLastname";
 
 
     public static final String PARAM_COUNT_TICKETS = "countTickets";

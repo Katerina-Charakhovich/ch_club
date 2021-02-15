@@ -51,6 +51,15 @@ public interface UserService {
      * Updates user photo.
      *
      * @param userId the user id
+     * @return the optional
+     * @throws ServiceException the service exception
+     */
+    Optional<User> findUserById(long userId) throws ServiceException;
+
+    /**
+     * Updates user photo.
+     *
+     * @param userId the user id
      * @param photo  the photo
      * @return the boolean
      * @throws ServiceException the service exception
@@ -66,6 +75,15 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     List<User> findByRole(User.Role role, Page page) throws ServiceException;
+    /**
+     * Finds list user by substring of  lastname limited to a page
+     *
+     * @param  lastname the  lastname
+     * @param page the page
+     * @return the list
+     * @throws ServiceException the service exception
+     */
+    List<User> findByRoleByLastname(User.Role role,String lastname, Page page) throws ServiceException;
 
     /**
      * Returns count user by role
@@ -75,6 +93,15 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     int countByRole(User.Role role) throws ServiceException;
+    /**
+     * Returns count user by role
+     *
+     * @param role the user role
+     * @param subLastname the substring of lastname
+     * @return the int
+     * @throws ServiceException the service exception
+     */
+    int countByRoleByLastname(User.Role role,String subLastname) throws ServiceException;
 
     /**
      * Returns count user by role
@@ -84,6 +111,7 @@ public interface UserService {
      * @return the int
      * @throws ServiceException the service exception
      */
+
     boolean confirmRegistry(String login, String verificationCode) throws ServiceException;
 
     /**

@@ -27,7 +27,11 @@ public class PaginationCommand implements Command {
         int number_page = Integer.parseInt(req.getParameter(PageParam.PARAM_PAGE));
         Cookie cookie = CookieHandler.create(PageCookieName.PAGINATION_NUMBER_PAGE, String.valueOf(number_page));
         resp.addCookie(cookie);
-        StringBuilder page = new StringBuilder().append(ApplicationParam.CONTROLLER_REGEX).append(currentCommand)
+        StringBuilder page=currentCommand.contains(ONE_PARAMETER_SPLIT)? new StringBuilder().
+                append(ApplicationParam.CONTROLLER_REGEX).append(currentCommand).
+                append(MULTI_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).
+                append(SIGN_EQUALS).append(number_page):
+        new StringBuilder().append(ApplicationParam.CONTROLLER_REGEX).append(currentCommand)
                 .append(ONE_PARAMETER_SPLIT).append(PageAttribute.PAGINATION_NUMBER_PAGE).append(SIGN_EQUALS).append(number_page);
         return new Router(page.toString(), Router.Type.REDIRECT);
     }

@@ -5,14 +5,8 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title><fmt:message key="main.title"/></title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-</head>
 <body>
-<c:import url="common/header_admin.jsp"/>
+<c:import url="common/header.jsp"/>
 <main class="main">
     <div class="container" id="registration">
         <div class="row register-form">
@@ -54,7 +48,7 @@
                                    class=" col-sm-4 label-column"
                                    onchange="this.setCustomValidity('')"
                                    value="${mapPageParams.get('firstname')}">
-                            <div class="warnMessage" style="color: #8b0000">>
+                            <div class="warnMessage" style="color: #8b0000">
                                 <c:if test="${not empty mapPageParams && mapPageParams.get('firstname').equals('error')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -74,7 +68,7 @@
                                        key="registration.warnMessage"/>')"
                                onchange="this.setCustomValidity('')"
                                value="${mapPageParams.get('phone')}">
-                        <div class="warnMessage" style="color: #8b0000">>
+                        <div class="warnMessage" style="color: #8b0000">
                             <c:if test="${not empty mapPageParams && mapPageParams.get('phone').equals('error')}">
                                 <fmt:message key="registration.warnMessage"/>
                             </c:if>
@@ -94,7 +88,7 @@
                                    pattern="^[\\w-\\.]+@([\\w-]+\\.)+[\\w]{2,4}$"
                                    onchange="this.setCustomValidity('')"
                                    value="${mapPageParams.get('email')}">
-                            <div class="warnMessage" style="color: #8b0000">>
+                            <div class="warnMessage" style="color: #8b0000">
                                 <c:if test="${not empty mapPageParams && mapPageParams.get('email').equals('error')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -120,7 +114,7 @@
                             <div class="field-description">
                                 <fmt:message key="registration.passwordDescription"/>
                             </div>
-                            <div class="warnMessage" style="color: #8b0000">>
+                            <div class="warnMessage" style="color: #8b0000">
                                 <c:if test="${not empty userParameters and empty userParameters.get('password')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>
@@ -141,7 +135,7 @@
 
                                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,20}$"
                                    value="${userParameters.get('repeatedPassword')}">
-                            <div class="warnMessage" style="color: #8b0000">>
+                            <div class="warnMessage" style="color: #8b0000">
                                 <c:if test="${not empty userParameters and empty userParameters.get('repeatedPassword')}">
                                     <fmt:message key="registration.warnMessage"/>
                                 </c:if>

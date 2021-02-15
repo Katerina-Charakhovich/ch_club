@@ -31,14 +31,14 @@ public class AdminAddQuestDateCommand implements Command {
     public static final String MULTI_PARAMETER_SPLIT = "&";
     public static final String CONTROLLER_REGEX = "/do/";
     public static final String SIGN_EQUALS = "=";
+    private static final String DATE_TIME_FORMATTER = "yyyy-MM-dd'T'HH:mm";
     private static final Logger logger = LogManager.getLogger(AdminAddEventDateCommand.class);
     private static final EventDateService eventDateService = new EventDateServiceImpl();
-    private static final String DATE_TIME_FORMATTER = "yyyy-MM-dd'T'HH:mm";
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
 
-        long eventId = Long.parseLong(req.getParameter(PageParam.PARAM_QUEST_ID));
+        long eventId = Long.parseLong(req.getParameter(PageParam.PARAM_EVENT_ID));
         String date = req.getParameter(PageParam.PARAM_QUEST_DATE);
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FORMATTER, Locale.getDefault()));
         boolean isValidDate = DataValidate.isValidEventDate(localDate);

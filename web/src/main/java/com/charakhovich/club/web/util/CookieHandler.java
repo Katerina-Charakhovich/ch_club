@@ -25,7 +25,7 @@ public class CookieHandler {
     public static Cookie create(String name, String value) {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath(ApplicationParam.APPLICATION_PATH);
-        cookie.setPath(ApplicationParam.APPLICATION_DOMAIN);
+        cookie.setDomain(ApplicationParam.APPLICATION_DOMAIN);
         return cookie;
     }
 

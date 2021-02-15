@@ -13,6 +13,7 @@ public class ApplicationParam {
     public static final String MULTI_PARAMETER_SPLIT = "&";
 
     public static final int DEFAULT_PAGINATION_NUMBER  = 1;
+    public static final int DEFAULT_MAIN_PAGE_COUNT_EVENT  = 3;
     public static final int DEFAULT_COUNT_EVENT_FOR_VIEW=6;
     public static final int DEFAULT_COUNT_MESSAGE_EVENT_VIEW=5;
     public static final int DEFAULT_COUNT_VIEW_QUEST_DATES=7;

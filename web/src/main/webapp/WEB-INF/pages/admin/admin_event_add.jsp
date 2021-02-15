@@ -5,14 +5,8 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-<head>
-
-</head>
-<style>
-    <%@include file="../style.css" %>
-</style>
 <body>
-<c:import url="../common/header_admin.jsp"/>
+<c:import url="../common/header.jsp"/>
 <main class="main">
     <div class="container">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -56,7 +50,7 @@
                         <fmt:message key="event.label.name"/>
                     </label>
                 </h3>
-                <div class="col-xs-10">
+                <div class="col-xs-6">
                     <c:choose>
                         <c:when test="${not empty mapPageParams && mapPageParams['eventName'].equals('error')}">
                             <input type="text"
@@ -263,5 +257,4 @@
 </body>
 <script src="${pageContext.request.contextPath}/themes/fas/theme.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/themes/explorer-fas/theme.js" type="text/javascript"></script>
-<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
 </html>

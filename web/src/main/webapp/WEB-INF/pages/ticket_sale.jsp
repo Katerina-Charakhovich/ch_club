@@ -5,14 +5,8 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title><fmt:message key="main.title"/></title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-</head>
 <body>
-<c:import url="common/header_admin.jsp"/>
+<c:import url="common/header.jsp"/>
 <main class="main">
     <div class="container text-center">
         <input type="hidden" name="command" value="ticket_sale">
@@ -248,6 +242,8 @@
 <input type="hidden" id="isTicketPaid" value="${isTicketPaid}">
 <input type="hidden" id="isTicketBooked" value="${isTicketBooked}">
 <input type="hidden" id="isTicketSale" value="${isTicketSale}">
+<input type="hidden" id="isNotEnoughMoney" value="${isNotEnoughMoney}">
+
 
 <c:import url="common/footer.jsp"/>
 <c:import url="modal_ticket_sale.jsp"/>
@@ -267,24 +263,27 @@
     }
 
     if ($("#isTicketPaid").val() === 'true') {
-        alert("isTicketPaid");
         $("#modalSuccessPaidTicket").modal('show');
     } else {
         $("#modalSuccessPaidTicket").modal('hide');
     }
 
     if ($("#isTicketBooked").val() === 'true') {
-        alert("isTicketBooked");
         $("#modalSuccessBookTicket").modal('show');
     } else {
         $("#modalSuccessBookTicket").modal('hide');
     }
 
     if ($("#isTicketSale").val() === 'false') {
-        alert("isTicketSale");
         $("#modalUnSuccessSaleTicket").modal('show');
     } else {
         $("#modalUnSuccessSaleTicket").modal('hide');
     }
+    if ($("#isNotEnoughMoney").val() === 'true') {
+        $("#modalNotEnoughMoney").modal('show');
+    } else {
+        $("#modalNotEnoughMoney").modal('hide');
+    }
+    isNotEnoughMoney
 </script>
 </html>

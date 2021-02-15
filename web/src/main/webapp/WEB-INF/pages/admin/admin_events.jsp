@@ -5,16 +5,8 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-
-<html>
-<head>
-    <title>Title</title>
-</head>
-<style>
-    <%@include file="../style.css" %>
-</style>
 <body>
-<c:import url="../common/header_admin.jsp"/>
+<c:import url="../common/header.jsp"/>
 <div class="container">
     <table style="with: 50%" border="1">
         <tr>
@@ -64,6 +56,5 @@
         </form>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/delete_cookie.js"></script>
 </body>
 </html>

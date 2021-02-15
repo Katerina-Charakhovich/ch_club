@@ -50,10 +50,10 @@ public class AdminAddEventDateCommand implements Command {
                 isCreate = eventDateService.create(eventDate) > 0;
             } catch (ServiceException e) {
                 logger.log(Level.ERROR, e);
-                resp.addCookie(CookieHandler.create(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 return new Router(PagePath.REDIRECT_ERROR_500, Router.Type.REDIRECT);
             }
             if (isCreate) {
+                resp.addCookie(CookieHandler.create(PageCookieName.EVENT_ID, String.valueOf(eventId)));
                 return new Router(PagePath.REDIRECT_ADMIN_EVENT_EDIT, Router.Type.REDIRECT);
             } else {
                 req.setAttribute(PageAttribute.IS_INVALID_DATA, "true");

@@ -30,14 +30,18 @@ public class AdminMessagePageCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            int currentPaginationPage = Integer.parseInt(Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE))
+            int numberPage = Integer.parseInt(Optional.ofNullable(req.getParameter(PageAttribute.PAGINATION_NUMBER_PAGE))
                     .orElse(String.valueOf(ApplicationParam.DEFAULT_PAGINATION_NUMBER)));
-            List<MessageEvent> listMessageEvent = messageEventService.findMessagesEvent(MessageEvent.State.NEW,
-                    new Page(currentPaginationPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
             int countOfMessage = messageEventService.countOfMessageByState(MessageEvent.State.NEW);
             int countPages = (int) Math.ceil(countOfMessage * 1.0 / Page.RECORD_NUMBER);
+
+            numberPage = numberPage > countPages && countPages != 0 ? countPages : numberPage < 1 ?
+                    ApplicationParam.DEFAULT_PAGINATION_NUMBER : numberPage;
+            List<MessageEvent> listMessageEvent = messageEventService.findMessagesEvent(MessageEvent.State.NEW,
+                    new Page(numberPage, ApplicationParam.DEFAULT_COUNT_MESSAGE_EVENT_VIEW));
+
             req.setAttribute(PageAttribute.EVENT_MESSAGES, listMessageEvent);
-            req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, currentPaginationPage);
+            req.setAttribute(PageAttribute.PAGINATION_NUMBER_PAGE, numberPage);
             req.setAttribute(PageAttribute.PAGINATION_COUNT_PAGES, countPages);
             HttpSession session = req.getSession();
             session.setAttribute(PageAttribute.CURRENT_COMMAND, CommandType.ADMIN_MESSAGES.toString());

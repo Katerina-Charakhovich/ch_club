@@ -93,6 +93,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findUserById(long userId) throws ServiceException {
+        Optional<User> userResult = Optional.empty();
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.initSingleQuery(userDao);
+        try {
+            userResult = userDao.findEntityById(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        } finally {
+            transaction.endSingleQuery();
+        }
+        return userResult;
+    }
+
+    @Override
     public boolean updatePhoto(long userId, InputStream photo) throws ServiceException {
         boolean isUpdate = false;
         EntityTransaction transaction = new EntityTransaction();
@@ -130,12 +145,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findByRoleByLastname (User.Role role,String lastname, Page page) throws ServiceException {
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.initSingleQuery(userDao);
+        List<User> result;
+        try {
+            result = userDao.findByRoleByLastname(role,lastname, page);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        } finally {
+            transaction.endSingleQuery();
+        }
+        return result;
+    }
+
+    @Override
     public int countByRole(User.Role role) throws ServiceException {
         EntityTransaction transaction = new EntityTransaction();
         transaction.initSingleQuery(userDao);
         int result = 0;
         try {
             result = userDao.countByRole(role);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        } finally {
+            transaction.endSingleQuery();
+        }
+        return result;
+    }
+
+    @Override
+    public int countByRoleByLastname(User.Role role, String subLastname) throws ServiceException {
+        EntityTransaction transaction = new EntityTransaction();
+        transaction.initSingleQuery(userDao);
+        int result = 0;
+        try {
+            result = userDao.countByRoleByLastname(role,subLastname);
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {

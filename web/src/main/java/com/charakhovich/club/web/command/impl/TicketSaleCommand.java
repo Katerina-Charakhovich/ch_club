@@ -49,8 +49,10 @@ public class TicketSaleCommand implements Command {
                     : Ticket.State.PAID;
             Ticket ticket = new Ticket(eventDateId, user.getUserId(), ticketState, countTicket);
             if (ticket.getState() == Ticket.State.PAID && 0 > user.getBalance().doubleValue() - ticket.getCountTicket() * priceTicket) {
+                resp.addCookie(CookieHandler.create(PageCookieName.IS_NOT_ENOUGH_MONEY, "true"));
                 req.setAttribute(PageAttribute.IS_NOT_ENOUGH_MONEY, "true");
-                return new Router(PagePath.EVENT_TICKET_SALE, Router.Type.FORWARD);
+                resp.addCookie(CookieHandler.create(PageCookieName.EVENT_ID, String.valueOf(eventId)));
+                return new Router(PagePath.REDIRECT_EVENT_TICKET_SALE, Router.Type.REDIRECT);
             }
             if (eventDateService.registryTicket(ticket, BigDecimal.valueOf(priceTicket)) > 0) {
                 resp.addCookie(ticket.getState() == Ticket.State.PAID ?

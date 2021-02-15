@@ -24,7 +24,10 @@ public class SqlQuery {
             "DELETE FROM ch_user where user_id=? ";
     public static final String SELECT_USER_BY_ID =
             "SELECT user_id, login,firstname,lastname,role, state, photo, phone,balance FROM ch_user where user_id=? ";
-
+    public static final String SELECT_USERS_BY_ROLE_BY_LASTNAME_LIMIT_PAGE=
+            "SELECT user_id, login,firstname,lastname,role, state, photo, phone,balance FROM ch_user where role=? and " +
+                    "lastname like ? and  state in (?,?) " +
+                    "order by lastname LIMIT ?,?";
     public static final String SELECT_USERS_BY_ROLE_LIMIT_PAGE =
             "SELECT user_id, login,firstname,lastname,role, state, photo, phone,balance FROM ch_user where role=? and  state in (?,?) " +
                     "order by lastname LIMIT ?,?";
@@ -36,6 +39,10 @@ public class SqlQuery {
             "VALUES (?, ?, ?, ?, ?,?,?,?)";
     public static final String SELECT_COUNT_USERS_BY_ROLE = "SELECT COUNT(*) as count_users FROM ch_user where role=? " +
             "and state in (?,?)";
+    public static final String SELECT_COUNT_USERS_BY_ROLE_BY_LASTNAME = "SELECT COUNT(*) as count_users FROM ch_user where role=? " +
+            "and lastname like ? " +
+            "and state in (?,?)";
+
     public static final String UPDATE_USER =
             "UPDATE ch_user SET firstname=?,lastname=?,phone = ?WHERE (user_id =?)";
     public static final String UPDATE_USER_BALANCE_MINUS =

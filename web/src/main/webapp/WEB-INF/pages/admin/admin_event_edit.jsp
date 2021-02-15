@@ -5,17 +5,11 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="message"/>
 <html>
-<head>
-
-</head>
-<style>
-    <%@include file="../style.css" %>
-</style>
 <body>
-<c:import url="../common/header_admin.jsp"/>
+<c:import url="../common/header.jsp"/>
 <main class="main">
     <div class="container">
-        <h1 class="h3 mt-5 mb-1"><c:out value="${eventView.getName()}" /></h1>
+        <h1 class="h3 mt-5 mb-1"><c:out value="${eventView.getName()}"/></h1>
         <h2 class="lead mt-0 mb-5"><c:out value="${eventView.getShortDescription()}"/></h2>
         <div class="event">
             <div class="container-sm">
@@ -186,9 +180,15 @@
                     </br>
                     </hr>
                     </br>
+                    <div>
+                        <form action="${pageContext.request.contextPath}/do" method="get">
+                            <input type="hidden" name="commandNext" value="ADMIN_EVENT_EDIT">
+                            <ctg:pagination/>
+                        </form>
+                    </div>
                     <button type="submit" class="button" data-toggle="modal" data-target="#modalEventDate"
                             id="eventAddDate">
-                            <!--onclick="javascript:document.getElementById('eventAddDateId').setAttribute('value', '${eventView.getEventId()}')">-->
+                        <!--onclick="javascript:document.getElementById('eventAddDateId').setAttribute('value', '${eventView.getEventId()}')">-->
 
                         <fmt:message key="button.newEventDate"/>
                     </button>
@@ -199,29 +199,36 @@
                             <div class="date">${entry.key}</div>
                             <div class="slots">
                                 <c:forEach items="${entry.value}" var="eventDate">
-                                    <c:if test="${eventDate.getState().toString()=='ACTUAL'}">
+                                    <fmt:parseDate value="${eventDate.getEventDateTime()}"
+                                                   pattern="yyyy-MM-dd'T'HH:mm"
+                                                   var="parsedDateTime" type="both"/>
+                                    <fmt:formatDate pattern="dd.MM.yyyy" value="${parsedDateTime}"
+                                                    var="date"/>
+
+                                    <fmt:parseDate value="${eventDate.getEventDateTime()}"
+                                                   pattern="yyyy-MM-dd'T'HH:mm"
+                                                   var="parsedDateTime1" type="both"/>
+                                    <fmt:formatDate pattern="HH:mm" value="${parsedDateTime1}"
+                                                    var="time"/>
+                                    <c:if test="${eventDate.getFreeTicketCount()>0}">
                                         <button type="button" data-original-title="Is free"
                                                 data-toggle="tooltip"
                                                 class="item time_table_label free price-1-of-4">
-                                            <fmt:parseDate value="${eventDate.getEventDateTime()}"
-                                                           pattern="yyyy-MM-dd'T'HH:mm"
-                                                           var="parsedDateTime1" type="both"/>
-                                            <fmt:formatDate pattern="HH:mm" value="${parsedDateTime1}"
-                                                            var="time1"/>
-                                                ${time1}
+                                            <fmt:message key="ticketSale.time"/>
+                                                ${time}</br>
+                                            <c:out value="${eventDate.getTicketCost()}"/>BYN
                                         </button>
                                     </c:if>
-                                    <c:if test="${eventDate.getState().toString()=='BOOKED'}">
-                                        <button type="button" data-original-title="Бронь недоступна"
+                                    <c:if test="${eventDate.getFreeTicketCount()<1}">
+                                        <button type="button" data-original-title=
+                                            <fmt:message key="quest.schedule.sales"/>
                                                 data-toggle="tooltip"
                                                 class="item time_table_label closed">
-                                            <fmt:parseDate value="${eventDate.getEventDateTime()}"
-                                                           pattern="yyyy-MM-dd'T'HH:mm"
-                                                           var="parsedDateTime1" type="both"/>
-                                            <fmt:formatDate pattern="HH:mm" value="${parsedDateTime1}"
-                                                            var="time1"/>
-                                                ${time1}
+                                            <fmt:message key="ticketSale.time"/>
+                                                ${time}</br>
+                                            <c:out value="${eventDate.getTicketCost()}"/>BYN
                                         </button>
+
                                     </c:if>
                                 </c:forEach>
                             </div>
@@ -231,14 +238,15 @@
                     </br>
                     <div>
                         <form action="${pageContext.request.contextPath}/do" method="get">
-                            <input type="hidden" name="commandNext" value="admin_event_dates">
+                            <input type="hidden" name="commandNext" value="ADMIN_EVENT_EDIT">
                             <ctg:pagination/>
                         </form>
                     </div>
                     </br>
                     <button type="submit" class="button" data-toggle="modal" data-target="#modalQuestDate"
-                            id="questAddDate"
-                            onclick="javascript:document.getElementById('questId').setAttribute('value', '${eventView.getEventId()}')">
+                            id="questAddDate">
+                        <!--      onclick="javascript:document.getElementById('questId').setAttribute('value', '${eventView.getEventId()}')">
+                    -->
                         <fmt:message key="button.newEventDate"/>
                     </button>
 
@@ -294,9 +302,7 @@
             <div class="modal-body">
                 <form class="p-4" method="POST"
                       action="${pageContext.request.contextPath}/do/admin_add_quest_date">
-                    <!--      <input type="hidden" name="command" value="admin_add_quest_date"/> -->
-                    <input type="hidden" id="questId" name="questId" value="${eventView.getEventId()}"/>
-
+                    <input type="hidden" id="eventQDateId" name="eventId" value="${eventView.getEventId()}"/>
                     <label><fmt:message key="quest.date"/></label>
                     <br class="required col-xs-10">
                     <input class="input-group"
@@ -318,7 +324,7 @@
                            name="questStartTime"
                            required
                            min="09:00" max="20:00"
-                           value="" pattern="HH:MM"/>"
+                           value="" pattern="HH:MM"/>
 
                     <div class="warnMessage" id="incorrectQuestStartTime" hidden style="color: #8b0000">
                         <fmt:message key="modal.eventDate.incorrectTime"/>
@@ -332,7 +338,7 @@
                            name="questEndTime" id="questEndTime"
                            required
                            min="10:00" max="21:00"
-                           value="" pattern="HH:MM"/>"
+                           value="" pattern="HH:MM"/>
 
                     <div class="warnMessage" id="incorrectQuestEndTime" hidden style="color: #8b0000">
                         <fmt:message key="modal.eventDate.incorrectTime"/>
@@ -387,7 +393,7 @@
             <div class="modal-body">
                 <form class="p-4" method="POST"
                       action="${pageContext.request.contextPath}/do/admin_add_event_date">
-                    <input type="hidden" id="eventAddDateId" name="eventId"/>
+                    <input type="hidden" id="eventAddDateId" name="eventId" value="${eventView.getEventId()}"/>
                     <label><fmt:message key="label.date.time"/></label>
                     <br class="required col-xs-10">
                     <input class="input-group"
@@ -451,9 +457,45 @@
     </div>
 </div>
 <c:import url="../common/footer.jsp"/>
+<script>
+    if ($("#isInvalidQuestData").val() === "true") {
+        $("#modalQuestDate").modal('show');
+        alert("!!!!!!!!!");
+    } else {
+        $("#modalQuestDate").modal('hide');
+    }
+    ;
+
+    if ($("#isInvalidQuestDate").val() === "true") {
+        $("#oldQuestDate").prop('hidden', false);
+    }
+    ;
+    if ($("#isInvalidQuestTime").val() === "true") {
+        $("#incorrectQuestStartTime").prop('hidden', false);
+        $("#incorrectQuestEndTime").prop('hidden', false);
+    }
+    ;
+    if ($("#isExistQuestDate").val() === "true") {
+        $("#existQuestDate").prop('hidden', false);
+    }
+    ;
+    if ($("#isInvalidQuestCostTicket").val() == "true") {
+        $("#incorrectQuestCostTicket").prop('hidden', false);
+    }
+    ;
+    $("#questAddDate").click(function () {
+        $("#date").val('');
+        $("#costQuestTicket").val(0);
+        $("#questStartTime").val('');
+        $("#questEndTime").val('');
+        $("#oldQuestDate").prop('hidden', true);
+        $("#incorrectQuestStartTime").prop('hidden', true);
+        $("#incorrectQuestEndTime").prop('hidden', true);
+        $("#incorrectQuestCostTicket").prop('hidden', true);
+    });
+</script>
 <script src="${pageContext.request.contextPath}/js/edit_event.js"></script>
 <script src="${pageContext.request.contextPath}/js/add_event_date.js"></script>
-<script src="${pageContext.request.contextPath}/js/add_event_quest.js"></script>
 </body>
 </html>
 
