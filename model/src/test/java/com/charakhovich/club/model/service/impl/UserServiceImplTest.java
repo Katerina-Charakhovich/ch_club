@@ -74,26 +74,6 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testCountByRole() {
-    }
-
-    @Test
-    public void testConfirmRegistry() {
-    }
-
-    @Test
-    public void testDelete() {
-    }
-
-    @Test
-    public void testUpdatePassword() {
-    }
-
-    @Test
-    public void testUpdate() {
-    }
-
-    @Test
     public void testAddBalance()  {
         try {
             long userId = 1;

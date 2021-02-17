@@ -53,22 +53,7 @@ public class MessageEventServiceImplTest {
         }
     }
 
-    @Test
-    public void testTestFindMessagesEventByPage() {
-  /*      long eventId = 1;
-        long userId = 1;
-        Optional<User> user =Optional.of( new User(userId,"TestName", "TestLastName", "123",
-                "my@tut.by", User.Role.USER, User.State.ACTUAL, BigDecimal.valueOf(15.00)));
-        Page page=new Page(1,5);
-        try {
-            when(messageEventDao.findMessagesEvent(eventId,page)).thenReturn(expected);
-            when(userDao.findEntityById(userId,)).thenReturn(user);
-            List<MessageEvent> actual = messageEventService.findMessagesEvent(eventId,page);
-            assertEquals(actual, expected);
-        } catch (DaoException | ServiceException e) {
-            fail("Incorrect data", e);
-        }*/
-    }
+
     @Test
     public void testCountOfMessages() {
         long eventId=1;
@@ -79,14 +64,6 @@ public class MessageEventServiceImplTest {
         } catch (DaoException | ServiceException e) {
             fail(e.getMessage());
         }
-    }
-
-    @Test
-    public void testCreate() {
-    }
-
-    @Test
-    public void testTestFindMessagesEvent1() {
     }
 
     @Test

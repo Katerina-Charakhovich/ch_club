@@ -175,7 +175,7 @@ public class EventDaoImpl extends AbstractDao<Event> implements EventDao {
     public int create(Event event) throws DaoException {
         Connection connection = this.connection;
         PreparedStatement statement = null;
-        int key = -1;
+        int id = -1;
         try {
             statement = connection.prepareStatement(SqlQuery.INSERT_EVENT, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, event.getEventType().toString());
@@ -187,9 +187,9 @@ public class EventDaoImpl extends AbstractDao<Event> implements EventDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                key = resultSet.getInt(1);
+                id = resultSet.getInt(1);
             }
-            return key;
+            return id;
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {

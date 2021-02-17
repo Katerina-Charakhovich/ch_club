@@ -11,7 +11,8 @@
 <main class="main">
     <div class="container">
         <div class="row" style="text-align:center;">
-            <h2 style="text-align:center;"><fmt:message key="main.h2.theatre"/></h2>
+            <h4 style="text-align:center;"><a class="nav-link" href="${pageContext.request.contextPath}/do/events?eventType=theatre">
+                <fmt:message key="main.h2.theatre"/></a></h4>
             <hr>
             <div class="row" style="text-align:center;">
                 <c:forEach items="${listTheatre}" var="event">
@@ -50,11 +51,13 @@
                     </div>
                 </c:forEach>
             </div>
-            <a class="nav-link" href="${pageContext.request.contextPath}/do/events">
-                <fmt:message key="navbar.theatre.page"/></a>
         </div>
         <div class="row" style="text-align:center;">
-            <h2 style="text-align:center;"><fmt:message key="main.h2.quest"/></h2>
+            <h4 style="text-align:center;">
+                <a class="nav-link" href="${pageContext.request.contextPath}/do/events?eventType=quest">
+                    <fmt:message key="main.h2.quest"/></a>
+
+                </h4>
             <hr>
             <div class="row" style="text-align:center;">
                 <c:forEach items="${listQuest}" var="event">
@@ -77,8 +80,6 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-                            <!--   <img class="card-img-top" src="images/${event.getMainPicture().getName()}" alt="Card image cap">
-       -->
                             <div class="card-body">
                                 <ul class="list-unstyled mt-3 mb-4">
                                     <p>${event.getShortDescription()}</p>
@@ -95,8 +96,6 @@
                     </div>
                 </c:forEach>
             </div>
-            <a class="nav-link" href="${pageContext.request.contextPath}/do/events">
-                <fmt:message key="navbar.quest.page"/></a>
         </div>
     </div>
 </main>

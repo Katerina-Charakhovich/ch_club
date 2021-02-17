@@ -39,9 +39,7 @@ public class EventServiceImpl implements EventService {
             ) {
                 List<Picture> listPicture = pictureDao.findPicturesByEvent(event.getEventId(), Picture.Type.MAIN);
                 if (listPicture != null && listPicture.size() > 0)
-
                     event.setMainPicture(listPicture.get(0));
-
             }
         } catch (DaoException e) {
             throw new ServiceException(e);

@@ -245,8 +245,6 @@
                     </br>
                     <button type="submit" class="button" data-toggle="modal" data-target="#modalQuestDate"
                             id="questAddDate">
-                        <!--      onclick="javascript:document.getElementById('questId').setAttribute('value', '${eventView.getEventId()}')">
-                    -->
                         <fmt:message key="button.newEventDate"/>
                     </button>
 
